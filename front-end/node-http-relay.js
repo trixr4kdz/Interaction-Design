@@ -2,7 +2,7 @@ var express = require('express');
 var request = require('request');
 var app = express();
 
-var API_HOST = "http://api.tumblr.com";
+var API_HOST = "https://api.tumblr.com";
 
 app.use('/', function (req, res) {
     var url = API_HOST + req.url;
