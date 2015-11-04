@@ -14,7 +14,6 @@ $(function () {
 			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
 		})
 		getPosts();
-		// getAvatar();
 	});
 
 	// $("#tag-button").click(function () {
@@ -29,11 +28,11 @@ $(function () {
 	// 		if ($("#tag-radio-ten")) {
 
 	// 		}
-	// 		else if ($("#tag-radio-ten")) {
+	// 		else if ($("#tag-radio-fifteen")) {
 
 	// 		}
-	// 		else if () {
-	// 			// $('#body').append (result.response.)
+	// 		else if ($("#tag-radio-twenty")) {
+	// 			$('#body').append (result.response.)
 	// 		}
 	// 	})
 	// });
@@ -41,7 +40,7 @@ $(function () {
 	$("#random-button").click(function () {
 		random_id = generateRandomID();
 		$.getJSON (
-			"http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "info",
+			"http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "/info",
 			{
 				api_key: key
 			}
@@ -49,9 +48,11 @@ $(function () {
 			if (result.response.meta.status == 404) {
 				$('#blog-details').html("User " + random_id + "does not exist");
 			}
+			$('#blog-title').text("Blog Title: " + result.response.blog.title);
+			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
 			console.log(result);
 		})
-	})
+	});
 
 	$("#avatar-button").click(function () {
 		$.getJSON (
@@ -65,7 +66,7 @@ $(function () {
 
 			$('body').append(img);
 		})
-	})
+	});
 
 	// function getLikes() {
 	// 	$.getJSON (
