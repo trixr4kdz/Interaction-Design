@@ -18,16 +18,54 @@
             <div class="column-xs-12"><h3>Simple Tumblr</h3></div>
         </div>
         <div class="row">
-            <div class="form-group"><br>
-                <p id="text-output"></p>
-                <label for="search-term">Enter a search term:</label>
-                <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
-                <button id="search-button" class="btn btn-default">Search</button>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p id="blog-title"></p>
+                    <label for="search-term">Enter a blog name to search for:</label>
+                    <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
+                    <button id="search-button" class="btn btn-default">Search</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    Which would you like to display about this blog?
+                </p>
+                <div class="checkbox" id="name">
+                    <label><input type="checkbox" value="">Name</label>
+                </div>
+                <div class="checkbox" id="likes">
+                    <label><input type="checkbox" value="">Likes</label>
+                </div>
+                <div class="checkbox" id="posts">
+                    <label><input type="checkbox" value="">Posts</label>
+                </div>
+                <div class="checkbox" id="description">
+                    <label><input type="checkbox" value="">Description</label>
+                </div>
             </div>
         </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value=""></label>
+
+        <strong>OR</strong>
+
+        <br>
+        <br>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <button id="random-button" class="btn btn-default">Click here to display a random blog</button>
+            </div>
         </div>
+        <br>
+
+        
+        
+        <label>The results will be shown below: </label>
+        <br>
+        <br>       
+        <p id="blog-details">
+            DETAILS
+        </p>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
