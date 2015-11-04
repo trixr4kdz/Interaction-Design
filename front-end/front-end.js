@@ -10,7 +10,7 @@ $(function () {
 	$("#search-button").click(function () {
 		searchBlog();
 		printBlogTitle();
-		getLikes();
+		// getLikes();
 		getPosts();
 		getAvatar();
 	});
@@ -23,7 +23,11 @@ $(function () {
 	// });
 
 	function printBlogTitle () {
-		$('#blog-title').text(title);
+		$('#blog-title').text(
+			title,
+			likes,
+			posts
+			);
 	}
 
 	function searchBlog() {
@@ -35,26 +39,28 @@ $(function () {
 		).done(function (result) {
 			console.log(result);
 			title = result.response.blog.title;
-			// name = result.response.blog.name;
-			// likes = result.response.blog.likes;
-			// posts = result.response.blog.posts;
-			// description = result.response.blog.description;
-			
+
+			// if($('#name').is(':checked')) {
+			// 	console.log('Hello');
+			// }
+			// else {
+			// 	alert ('Bye');
+			// }
 		});
 	}
 
-	function getLikes() {
-		$.getJSON (
-			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/likes",
-			{
-				api_key: key
-			}
-		).done(function (result) {
-			console.log(result);
-			likes = result;
-		})
+	// function getLikes() {
+	// 	$.getJSON (
+	// 		"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/likes",
+	// 		{
+	// 			api_key: key
+	// 		}
+	// 	).done(function (result) {
+	// 		console.log(result);
+	// 		likes = result;
+	// 	})
 
-	}
+	// }
 
 	function getPosts() {
 		$.getJSON (
