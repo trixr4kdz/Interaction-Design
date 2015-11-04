@@ -19,7 +19,6 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-            
                 <div class="form-group">
                     <p>
                         Search by blog name:
@@ -27,6 +26,7 @@
                     <label for="search-term">Enter a blog name to search for:</label>
                     <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
                     <button id="search-button" class="btn btn-primary">Search</button>
+                    <button id="avatar-button" class="btn btn-primary">Click here to see this blogger's avatar</button>
                 </div>
             </div>
 
@@ -37,7 +37,21 @@
                 <div class="form-group">
                     <label for="search-term">Enter a tag to search for:</label>
                     <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
-                    <button id="search-button" class="btn btn-primary">Search</button>
+                    
+                    <p>
+                        How many results would you like to see?
+                    </p>
+
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" id="tag-radio-ten" checked>10</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" id="tag-radio-fifteen">15</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
+                    </div>
+                    <button id="tag-button" class="btn btn-primary">Search</button>
                 </div>
             </div>
         </div>
@@ -53,7 +67,7 @@
             </div>
             
             <div class="col-md-6">
-                <button id="avatar-image" class="btn btn-primary">Click here to see this blogger's avatar</button>
+                
             </div>
             <br>
         </div>
@@ -84,13 +98,13 @@
                 </p>
 
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="radio-ten">10</label>
+                  <label><input type="radio" name="optradio" id="posts-radio-ten">10</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="radio-fifteen">15</label>
+                  <label><input type="radio" name="optradio" id="posts-radio-fifteen">15</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="radio-twenty">20</label>
+                  <label><input type="radio" name="optradio" id="posts-radio-twenty">20</label>
                 </div>
             </div>
 
@@ -101,9 +115,7 @@
         <br>
         <br>
         <p id="blog-title"></p>
-        <p id="blog-details">
-            <img src="images.jpg" alt="placeholder image" width="100%">
-        </p>
+        <p id="blog-details"></p>
 
     </div>
 

@@ -8,29 +8,6 @@ $(function () {
 	var description = "";
 
 	$("#search-button").click(function () {
-		searchBlog();
-		printBlogTitle();
-		// getLikes();
-		getPosts();
-		getAvatar();
-	});
-
-	// $('#search-button').keypress (function (e) {
-	// 	if (e.which == '13' || e.keyCode == '13') {
-	// 		e.preventDefault();
-	// 		searchBlog();
-	// 	}
-	// });
-
-	function printBlogTitle () {
-		$('#blog-title').text(
-			title,
-			likes,
-			posts
-			);
-	}
-
-	function searchBlog() {
 		$.getJSON (
             "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/info", 
 			{
@@ -38,16 +15,52 @@ $(function () {
 			}
 		).done(function (result) {
 			console.log(result);
-			title = result.response.blog.title;
+			$('#blog-title').text("Blog Title: " + result.response.blog.title)
+			$('#blog-details').text("Blog Name: " + result.response.blog.name + "\n"
+				+ "Blog description: " + result.response.blog.description
+			)
+			if (result.response.blog.ask_anon) {
 
-			// if($('#name').is(':checked')) {
-			// 	console.log('Hello');
-			// }
-			// else {
-			// 	alert ('Bye');
-			// }
-		});
-	}
+			}
+		})
+		getPosts();
+		// getAvatar();
+	});
+
+	$("#tag-button").click(function () {
+		$.getJSON (
+			"http://localhost:3000/v2/tagged", 
+			{
+				tag: $('#tag-term').val(),
+				api_key: key
+			}
+
+			).done(function (result) {
+				console.log (result);
+				if ($("#tag-radio-ten")) {
+
+				}
+				else if ($("#tag-radio-ten")) {
+
+				}
+				else if ()
+				// $('#body').append (result.response.)
+			})
+	})
+
+	$("#avatar-button").click(function () {
+		$.getJSON (
+			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/avatar/512"
+		).done(function (result) {
+			console.log(result);
+			var img = $("<img/>").attr({
+				src: result,
+				alt: "avatar"
+			});
+
+			$('body').append(img);
+		})
+	})
 
 	// function getLikes() {
 	// 	$.getJSON (
@@ -68,16 +81,6 @@ $(function () {
 			{
 				api_key: key
 			}
-		).done(function (result) {
-			console.log(result);
-
-			$('body').append(result);
-		})
-	}
-
-	function getAvatar() {
-		$.getJSON (
-			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/avatar"
 		).done(function (result) {
 			console.log(result);
 
