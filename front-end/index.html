@@ -1,46 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Tumblr Front-End</title>
-	<meta charset="UTF-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tumblr Front-End</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
 
 </head>
 <body>
-	
-	<div class="container">
-		<div class="row">
-			<div class="column-xs-12"><h3>Will have to think of a funny title</h3></div>
-		</div>
-		<div class="row">
-		<!--	<form> -->
-			  <div class="form-group">
-			    <label for="search-term">Enter a search term:</label>
-			    <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
-			    <button id="search-button" class="btn btn-default">Search</button>
-			  </div>
-		<!--	</form> -->
-		</div>
-	</div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="column-xs-12"><h3>Simple Tumblr</h3></div>
+        </div>
+        <div class="row">
+            <div class="form-group"><br>
+                <p id="text-output"></p>
+                <label for="search-term">Enter a search term:</label>
+                <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
+                <button id="search-button" class="btn btn-default">Search</button>
+            </div>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" value=""></label>
+        </div>
+    </div>
 
-	<div class="container">
-		<div class="row">
-			  <div class="form-group">
-			    <label for="user-term">Enter a user to search for:</label>
-			    <input type="text" class="form-control" id="user-term" placeholder="Which user would you want to view?">
-			    <button id="user-button" class="btn btn-default">Search</button>
-			  </div>
-		</div>
-	</div>
-
-	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-	<script src="front-end.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script src="front-end.js"></script>
 
 </body>
 </html>
