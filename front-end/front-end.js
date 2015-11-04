@@ -8,38 +8,22 @@ $(function () {
 	var description = "";
 
 	$("#search-button").click(function () {
-		// searchBlog();
-		// printBlogTitle();
+		searchBlog();
+		printBlogTitle();
 		getLikes();
 		getPosts();
 	});
 
-	$('#search-button').keypress (function (e) {
-		if (e.which == '13' || e.keyCode == '13') {
-			e.preventDefault();
-			searchBlog();
-		}
-	});
+	// $('#search-button').keypress (function (e) {
+	// 	if (e.which == '13' || e.keyCode == '13') {
+	// 		e.preventDefault();
+	// 		searchBlog();
+	// 	}
+	// });
 
 	function printBlogTitle () {
-	$('#blog-title').text (title);
-}
-
-// function printProperties () {
-	
-// 	if ($('#name').attr('checked')) {
-// 		$('#blog-details').text(name);
-// 	}
-// 	if ($('#likes').attr('checked')) {
-// 		$('#blog-details').text(likes);
-// 	}
-// 	if ($('#posts').attr('checked')) {
-// 		$('#blog-details').text(posts);
-// 	}
-// 	if ($('#description').attr('checked')) {
-// 		$('#blog-details').text(description);
-// 	}
-// }
+		$('#blog-title').text(title);
+	}
 
 	function searchBlog() {
 		$.getJSON (
@@ -50,16 +34,11 @@ $(function () {
 		).done(function (result) {
 			console.log(result);
 			title = result.response.blog.title;
-			name = result.response.blog.name;
-			likes = result.response.blog.likes;
-			posts = result.response.blog.posts;
-			description = result.response.blog.description;
-			if (!result.response.blog.ask_anon) {
-				console.log ("OK");
-			}
-			// if (result.meta.status === 404) {
-			// 	alert ("User does not exist!");
-			// }
+			// name = result.response.blog.name;
+			// likes = result.response.blog.likes;
+			// posts = result.response.blog.posts;
+			// description = result.response.blog.description;
+			
 		});
 	}
 
@@ -90,5 +69,3 @@ $(function () {
 	}
 
 });
-
-
