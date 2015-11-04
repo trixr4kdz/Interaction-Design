@@ -1,11 +1,6 @@
 $(function () {
 
 	key = "1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv";
-	var title = "";
-	var likes = "";
-	var posts = "";
-	var name = "";
-	var description = "";
 
 	$("#search-button").click(function () {
 		$.getJSON (
@@ -27,25 +22,40 @@ $(function () {
 		// getAvatar();
 	});
 
-	$("#tag-button").click(function () {
+	// $("#tag-button").click(function () {
+	// 	$.getJSON (
+	// 		"http://localhost:3000/v2/tagged", 
+	// 		{
+	// 			tag: $('#tag-term').val(),
+	// 			api_key: key
+	// 		}
+	// 	).done(function (result) {
+	// 		console.log (result);
+	// 		if ($("#tag-radio-ten")) {
+
+	// 		}
+	// 		else if ($("#tag-radio-ten")) {
+
+	// 		}
+	// 		else if () {
+	// 			// $('#body').append (result.response.)
+	// 		}
+	// 	})
+	// });
+
+	$("#random-button").click(function () {
+		random_id = generateRandomID();
 		$.getJSON (
-			"http://localhost:3000/v2/tagged", 
+			"http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "info",
 			{
-				tag: $('#tag-term').val(),
 				api_key: key
 			}
-
-			).done(function (result) {
-				console.log (result);
-				if ($("#tag-radio-ten")) {
-
-				}
-				else if ($("#tag-radio-ten")) {
-
-				}
-				else if ()
-				// $('#body').append (result.response.)
-			})
+		).done(function (result) {
+			if (result.response.meta.status == 404) {
+				$('#blog-details').text("User " + random_id + "does not exist");
+			}
+			console.log(result);
+		})
 	})
 
 	$("#avatar-button").click(function () {
@@ -86,6 +96,16 @@ $(function () {
 
 			$('body').append(result);
 		})
+	}
+
+	function generateRandomID() {
+    	var text = "";
+    	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    	for(var i = 0; i < 7; i++) {
+        	text += possible.charAt(Math.floor(Math.random() * possible.length));
+    	}
+    	return text;
 	}
 
 });
