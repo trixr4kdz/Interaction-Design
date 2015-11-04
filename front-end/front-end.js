@@ -12,6 +12,7 @@ $(function () {
 		printBlogTitle();
 		getLikes();
 		getPosts();
+		getAvatar();
 	});
 
 	// $('#search-button').keypress (function (e) {
@@ -61,6 +62,16 @@ $(function () {
 			{
 				api_key: key
 			}
+		).done(function (result) {
+			console.log(result);
+
+			$('body').append(result);
+		})
+	}
+
+	function getAvatar() {
+		$.getJSON (
+			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/avatar"
 		).done(function (result) {
 			console.log(result);
 
