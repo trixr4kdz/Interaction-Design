@@ -59,12 +59,12 @@ $(function () {
 			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/avatar/512"
 		).done(function (result) {
 			console.log(result);
-			var img = $("<img/>").attr({
-				src: result,
-				alt: "avatar"
-			});
+			// var img = $("<img/>").attr({
+			// 	src: result,
+			// 	alt: "avatar"
+			// });
 
-			$('body').append(img);
+			// $('body').append(img);
 		})
 	});
 
