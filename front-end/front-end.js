@@ -10,13 +10,8 @@ $(function () {
 			}
 		).done(function (result) {
 			console.log(result);
-			$('#blog-title').text("Blog Title: " + result.response.blog.title)
-			$('#blog-details').text("Blog Name: " + result.response.blog.name + "\n"
-				+ "Blog description: " + result.response.blog.description
-			)
-			if (result.response.blog.ask_anon) {
-
-			}
+			$('#blog-title').text("Blog Title: " + result.response.blog.title);
+			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
 		})
 		getPosts();
 		// getAvatar();
@@ -52,7 +47,7 @@ $(function () {
 			}
 		).done(function (result) {
 			if (result.response.meta.status == 404) {
-				$('#blog-details').text("User " + random_id + "does not exist");
+				$('#blog-details').html("User " + random_id + "does not exist");
 			}
 			console.log(result);
 		})
