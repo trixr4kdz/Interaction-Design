@@ -21,9 +21,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <p>
-                        Search by blog name:
+                        See blog details:
                     </p>
-                    <label for="search-term">Enter a blog name to search for:</label>
+                    <label for="search-term">Enter a blog name:</label>
                     <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
                     <button id="search-button" class="btn btn-primary">Search</button>
                     <button id="avatar-button" class="btn btn-primary">Click here to see this blogger's avatar</button>
@@ -32,12 +32,14 @@
 
             <div class="col-md-6">
                 <p>
-                    Search by tags:
+                    Search ALL posts by tags:
                 </p>
                 <div class="form-group">
                     <label for="search-term">Enter a tag to search for:</label>
                     <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
-                    
+                    <p hidden>
+                        There are <span id="tag-results"></span> results with this tag.
+                    </p>
                     <p>
                         How many results would you like to see?
                     </p>
@@ -89,21 +91,55 @@
             </div>
 
             <div class="col-md-6">
-                <p>
-                    How many posts in this blog would you like to see?
-                </p>
+               <!--  <p> This blog has 
+                    <div id="post-number"> 
 
+                    </div>
+                </p> -->
+                How many posts in this blog would you like to see?
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-ten">10</label>
+                    <label><input type="radio" name="optradio" id="posts-radio-ten">10</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-fifteen">15</label>
+                    <label><input type="radio" name="optradio" id="posts-radio-fifteen">15</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-twenty">20</label>
+                    <label><input type="radio" name="optradio" id="posts-radio-twenty">20</label>
                 </div>
             </div>
-
+            <div class="col-md-6">
+                <p>
+                    What kind of posts would they be? (Select one):
+                </p>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="default">default</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="text">text</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="photo">photo</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="quote">quote</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="link">link</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="chat">chat</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="audio">audio</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="video">video</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio" id="answer">answer</label>
+                </div>
+                <button id="post-button" class="btn btn-primary">Search for posts</button>
+            </div>
         </div>
         
         <br>
@@ -112,7 +148,9 @@
         <br>
         <p id="blog-title"></p>
         <p id="blog-details"></p>
-        <img src="images.jpg" alt="placeholder">
+        <center>
+            <img id="avatar-image" src="images.jpg" alt="placeholder">
+        </center>
 
     </div>
 
