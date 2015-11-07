@@ -27,15 +27,15 @@ $(function () {
 			url: "http://localhost:3000/v2/tagged", 
 			data: {
 				tag: $('#tag-term').val(),
-				api_key: key
+				api_key: key,
+				limit: 100
 			},
 			error: (function (jqXHR, textStatus, errorThrown) {
             	console.log(jqXHR.status);
             	console.log(errorThrown);
             	if ($("#tag-term").val() == "") {
-            		alert ("Search field is empty");
-            	} 
-            	
+            		$("#tag-field").show();
+            	}
             })
 		}).done(function (result) {
 			console.log (result);
@@ -48,6 +48,9 @@ $(function () {
 			else if ($("#tag-radio-twenty").prop("checked")) {
 				alert ("TWENTY");
 			}
+			if ($("#tag-term").val() != "") {
+            	$("#tag-field").hide();
+            }
 		})
 	});
 
@@ -83,34 +86,24 @@ $(function () {
 			url: "http://api.tumblr.com/v2/blog/" + $("#search-term").val() + '.tumblr.com' + "/avatar/512?api_key=1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv",
 			dataType: 'jsonp',
    			success: function(avatar){
-  				console.log("HELLO");
-  		 		//var img = $("<img/>").attr({
-				// 	src: avatar.response.avatar_url,
-				// 	alt: "avatar"
-				// })	
 				$("#avatar-image").attr({
 					src: avatar.response.avatar_url, 
 					alt: "avatar"
-				})
+				});
+				if ($("#search-term").val() == "") {
+            		$("#main-field").show();
+            	} 
+            	else {
+            		$("#main-field").hide();
+            	}
    			}
-		}).done(function (result, textStatus, jqXHR) {
+		}).done(function (result) {
 			console.log(result);
-
-		 //    var binary = "";
-		 //    var responseText = jqXHR.responseText;
-		 //    var responseTextLen = responseText.length;
-
-		 //    for ( i = 0; i < responseTextLen; i++ ) {
-		 //        binary += String.fromCharCode(responseText.charCodeAt(i) & 255)
-		 //    }
-		 //    var url = "data:image/gif;base64,"+btoa(binary); // TODO fix hardcode
-   //  		console.log(url);
-			// var img = $("<img/>").attr({
-			// 	src: url,
-			// 	alt: "avatar"
-			});
-			// $('body').append(img);
-		})
+			if (result.meta.msg == "Not Found") {
+				console.log("User does not exist");
+			}
+		})	
+	});
 	// });
 
 	// function getLikes() {

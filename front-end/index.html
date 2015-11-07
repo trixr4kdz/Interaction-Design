@@ -27,6 +27,9 @@
                     <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
                     <button id="search-button" class="btn btn-primary">Search</button>
                     <button id="avatar-button" class="btn btn-primary">Click here to see this blogger's avatar</button>
+                    <p id="main-field" hidden>
+                        The search field is empty.
+                    </p>
                 </div>
             </div>
 
@@ -37,7 +40,8 @@
                 <div class="form-group">
                     <label for="search-term">Enter a tag to search for:</label>
                     <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
-                    <p hidden>
+                    
+                    <!-- <p hidden>
                         There are <span id="tag-results"></span> results with this tag.
                     </p>
                     <p>
@@ -52,8 +56,17 @@
                     </div>
                     <div class="radio">
                         <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
+                    </div> -->
+                    
+                    <button id="tag-button" class="btn btn-primary">List the top 20</button>
+                    
+                    <p id="tag-field" hidden>
+                        The search field is empty.
+                    </p>
+
+                    <div id="tag-results">
+
                     </div>
-                    <button id="tag-button" class="btn btn-primary">Search</button>
                 </div>
             </div>
         </div>
