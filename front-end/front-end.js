@@ -170,15 +170,6 @@ $(function () {
 				console.log("hello");
 
 			}
-			// if ($("#likes").prop("checked") {
-				
-			// }
-			// if ($("#posts").prop("checked") {
-				
-			// }
-			// if ($("#description").prop("checked") {
-				
-			// }
 		})
 		getPosts();
 	}
@@ -199,24 +190,41 @@ $(function () {
             })
 		}).done(function (result) {
 			console.log (result);
-			var n = 0;
+			var n = result.response.length;
 			$("#newList").remove();
-			if ($("#tag-radio-ten").prop("checked")) {
-				n = 10;
-			}
-			else if ($("#tag-radio-fifteen").prop("checked")) {
-				n = 15;
-			}
-			else if ($("#tag-radio-twenty").prop("checked")) {
-				n = 20;
+			if (n >= 20) {
+				if ($("#tag-radio-ten").prop("checked")) {
+					n = 10;
+				}
+				else if ($("#tag-radio-fifteen").prop("checked")) {
+					n = 15;
+				}
+				else if ($("#tag-radio-twenty").prop("checked")) {
+					n = 20;
+				}
 			}
 			$("#tag-list").append(
 				"<ul id='newList'></ul>"
 			);
 			for (i = 0; i < n; i++) {
 				name = result.response[i].blog_name;
+				var stuff;
+				if (result.response[i].photos !== undefined) {
+					stuff = $("<img/>").attr({
+						src: result.response[i].photos[0].original_size.url,
+						alt: "image",
+						width: "256px"
+					})
+				}
+				else {
+					stuff = $("<p>This blog does not have an image associated with it.</p>");
+				}
 				$("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
 					name + " </label></li>");
+				$("#newList").append(stuff);	
+				$("#newList").append("<br> <br>")
+				console.log(stuff);
+
 			}
 			if ($("#tag-term").val() != "") {
             	$("#tag-field").hide();
