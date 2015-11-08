@@ -34,20 +34,10 @@ $(function () {
 			error: (function (jqXHR, textStatus, errorThrown) {
             	console.log(jqXHR.status);
             	console.log(errorThrown);
-            	$('#blog-title').text ("SORRY, THAT BLOG DOES NOT EXIST :(");
-            	$('#blog-details').text ("");
-            	$("#avatar-image").attr({
-					src: "", 
-					alt: ""
-				})
+            	removeResults();
             })
 		}).done(function (result) {
-			if (result.response.meta.status == 404) {
-				$('#blog-details').html("User " + random_id + "does not exist");
-			}
-			$('#blog-title').text("Blog Title: " + result.response.blog.title);
-			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
-			console.log(result);
+			showResults(result);
 		})
 	});
 
@@ -77,20 +67,6 @@ $(function () {
 			}
 		})	
 	});
-	// });
-
-	function getLikes() {
-		$.getJSON (
-			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/likes",
-			{
-				api_key: key
-			}
-		).done(function (result) {
-			console.log(result);
-			likes = result;
-		})
-
-	}
 
 	function getPosts() {
 		$.ajax ({
@@ -127,14 +103,47 @@ $(function () {
     	//Maybe instead of the blog-name, use the associated IDs
 	}
 
+	function removeResults() {
+		$("#blog-title").text ("SORRY, THAT BLOG DOES NOT EXIST :(");
+    	$("#blog-name").text ("");
+    	$("#likes-results").text ("");
+    	$("#posts-results").text ("");
+    	$("#blog-description").html("");
+    	$("#posts").hide();
+    	$("#avatar-image").attr({
+			src: "", 
+			alt: ""
+		});
+	}
+
+	function showResults(result) {
+		var title = result.response.blog.title;
+		var name = result.response.blog.name;
+		var description = result.response.blog.description
+		var likes = result.response.blog.likes;
+		var posts = result.response.blog.posts;
+		$("#blog-title").text("Blog Title: " + title);
+		$("#blog-name").text("Name: " + name);
+		if (description !== "") {
+			$("#blog-description").html("Description: " + description);	
+		}
+		if (likes !== undefined) {
+			$("#likes-results").text("Total Likes: " + likes);
+		}
+		if (posts !== undefined || posts !== 0) {
+			$("#posts-results").text("Total Posts: " + posts);
+			$("#posts").show();
+		}
+	}
+
 	function mainSearch() {
 		$.ajax ({
 	        url: "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/info", 
 	        error: (function (jqXHR, textStatus, errorThrown) {
-	        	$('#blog-title').text ("SORRY, THAT BLOG DOES NOT EXIST :(");
+	        	removeResults();
 	        	if ($("#search-term").val() == "") {
             		$("#main-field").show();
-            		$("#like-div").hide();
+            		// $("#like-div").hide();
             	}
             	else {
             		$("#main-field").hide();
@@ -145,31 +154,8 @@ $(function () {
 				api_key: key
 			}
 		}).done(function (result) {
-			var title = result.response.blog.title;
-			var name = result.response.blog.name;
-			var description = result.response.blog.description
-			var likes = result.response.blog.likes;
-			var posts = result.response.blog.posts;
-			$("#blog-title").text("Blog Title: " + title);
-			$("#blog-name").text("Name: " + name);
-			if (description !== "") {
-				$("#blog-description").text("Description: " + description);	
-			}
-			if (likes !== undefined) {
-				$("#likes-results").text("Total Likes: " + likes);
-			}
-			if (posts !== undefined) {
-				$("#posts-results").text("Total Posts: " + posts);
-				$("#posts").show();
-			}
-
-			$("#like-div").show();
-
-			
-			if ($("#name").prop("checked")) {
-				console.log("hello");
-
-			}
+			showResults(result);
+			// $("#like-div").show();
 		})
 		getPosts();
 	}
@@ -185,22 +171,21 @@ $(function () {
             	if ($("#tag-term").val() == "") {
             		$("#tag-field").show();
             		$("#newList").remove();
-
             	}
             })
 		}).done(function (result) {
-			console.log (result);
+			$("#radio-prompt").show();
 			var n = result.response.length;
 			$("#newList").remove();
 			if (n >= 20) {
-				if ($("#tag-radio-ten").prop("checked")) {
-					n = 10;
-				}
-				else if ($("#tag-radio-fifteen").prop("checked")) {
+				if ($("#tag-radio-fifteen").prop("checked")) {
 					n = 15;
 				}
 				else if ($("#tag-radio-twenty").prop("checked")) {
 					n = 20;
+				}
+				else {
+					n = 10;
 				}
 			}
 			$("#tag-list").append(
@@ -223,8 +208,6 @@ $(function () {
 					name + " </label></li>");
 				$("#newList").append(stuff);	
 				$("#newList").append("<br> <br>")
-				console.log(stuff);
-
 			}
 			if ($("#tag-term").val() != "") {
             	$("#tag-field").hide();
