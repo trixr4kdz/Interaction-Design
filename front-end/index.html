@@ -31,6 +31,8 @@
                         The search field is empty.
                     </p>
                 </div>
+                Note: Clicking the search button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
+            
             </div>
 
             <div class="col-md-6">
@@ -41,40 +43,41 @@
                     <label for="search-term">Enter a tag to search for:</label>
                     <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
                     
-                    <p hidden>
-                        There are <span id="tag-results"></span> results with this tag.
-                    </p>
-                    <p>
-                        How many results would you like to see?
-                    </p>
-
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-ten" checked>10</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-fifteen">15</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
-                    </div>
-                    
-                    <button id="tag-button" class="btn btn-primary">List the top 20</button>
-
                     <p id="tag-field" hidden>
                         The search field is empty.
                     </p>
 
-                    <div id="tag-results">
+                    <div id="tag-radio-buttons" hidden>
+                        <p>
+                            How many results would you like to see?
+                        </p>
 
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" id="tag-radio-ten" checked>10</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" id="tag-radio-fifteen">15</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
+                        </div>
+                        
+                        <button id="tag-button" class="btn btn-primary">List the results</button>
+                    </div>
+
+                    <br>
+
+                    <div id="tag-list">
                     </div>
                 </div>
             </div>
+
+            
         </div>
 
-        <div id="tagged-posts">
-            <div id="tag-list">
-            </div>
-        </div>
+        
+
+        <br>
 
         <strong>OR</strong>
 
@@ -90,23 +93,7 @@
         <br>
 
         <div class="row">
-            <div class="col-md-6">
-                <p>
-                    Which would you like to display about this blog?
-                </p>
-                <div class="checkbox" id="name">
-                    <label><input type="checkbox" value="">Name</label>
-                </div>
-                <div class="checkbox" id="likes">
-                    <label><input type="checkbox" value="">Likes</label>
-                </div>
-                <div class="checkbox" id="posts">
-                    <label><input type="checkbox" value="">Posts</label>
-                </div>
-                <div class="checkbox" id="description">
-                    <label><input type="checkbox" value="">Description</label>
-                </div>
-            </div>
+            
 
             <div class="col-md-6">
                <!--  <p> This blog has 
@@ -161,13 +148,24 @@
         </div>
         
         <br>
-        <label>The results will be shown below: </label>
+        <!-- <div id="search-results"> -->
+            <label id="">The results will be shown below: </label>
+        <!-- </div> -->
         <br>
         <br>
-        <p id="blog-title"></p>
-        <p id="blog-details"></p>
+        <strong><p id="blog-title"></p></strong>
+        <p id="blog-name"></p>
+        <p id="blog-description"></p>
+        <p id="likes-results"></p>
+        <p id="posts-results"></p>
+        <div id="posts" hidden>
+            <button id="posts-button" class="btn btn-primary">Click here to see the top 20 posts from this user</button>
+            <br>
+            <br>
+        </div>
+        
         <center>
-            <img id="avatar-image" src="images.jpg" alt="placeholder">
+            <img id="avatar-image" src="images.jpg" alt="placeholder" width="50%">
         </center>
 
     </div>

@@ -17,6 +17,7 @@ $(function () {
 		if(e.which == 13) {
 	        tagSearch();
 	    }
+	    $("#tag-radio-buttons").show();
 	})
 
 	$("#tag-button").click(function () {
@@ -52,8 +53,11 @@ $(function () {
 
 	$("#avatar-button").click(function () {
 		$.ajax ({
-			url: "http://api.tumblr.com/v2/blog/" + $("#search-term").val() + '.tumblr.com' + "/avatar/512?api_key=1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv",
-			dataType: 'jsonp',
+			url: "http://api.tumblr.com/v2/blog/" + $("#search-term").val() + '.tumblr.com' + "/avatar/512",
+			dataType: "jsonp",
+   			data: {
+   				api_key: key
+   			},
    			success: function(avatar){
 				$("#avatar-image").attr({
 					src: avatar.response.avatar_url, 
@@ -75,29 +79,40 @@ $(function () {
 	});
 	// });
 
-	// function getLikes() {
-	// 	$.getJSON (
-	// 		"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/likes",
-	// 		{
-	// 			api_key: key
-	// 		}
-	// 	).done(function (result) {
-	// 		console.log(result);
-	// 		likes = result;
-	// 	})
-
-	// }
-
-	function getPosts() {
+	function getLikes() {
 		$.getJSON (
-			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/posts",
+			"http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/likes",
 			{
 				api_key: key
 			}
 		).done(function (result) {
 			console.log(result);
+			likes = result;
+		})
 
-			$('body').append(result);
+	}
+
+	function getPosts() {
+		$.ajax ({
+			url: "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/posts",
+			data: {
+				api_key: key
+			},
+			dataType: "jsonp",
+			success: function(posts){
+				var postings = posts.response.posts;
+				var text = "";
+				for (var i in postings) {
+  					var p = postings[i];
+  					// text += '<li><img src=' + p.photos[0].original_size.url +'><a href='+ p.post_url +'>'+ p.source_title +'</a></li>';
+				}
+				$("ul").append(text);
+  				// Fill and UL with the posts
+    		}
+		}).done(function (result) {
+			console.log(result);
+
+			$("body").append(result);
 		})
 	}
 
@@ -109,6 +124,7 @@ $(function () {
         	text += possible.charAt(Math.floor(Math.random() * possible.length));
     	}
     	return text;
+    	//Maybe instead of the blog-name, use the associated IDs
 	}
 
 	function mainSearch() {
@@ -118,6 +134,7 @@ $(function () {
 	        	$('#blog-title').text ("SORRY, THAT BLOG DOES NOT EXIST :(");
 	        	if ($("#search-term").val() == "") {
             		$("#main-field").show();
+            		$("#like-div").hide();
             	}
             	else {
             		$("#main-field").hide();
@@ -128,18 +145,49 @@ $(function () {
 				api_key: key
 			}
 		}).done(function (result) {
-			console.log(result);
-			$('#blog-title').text("Blog Title: " + result.response.blog.title);
-			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
+			var title = result.response.blog.title;
+			var name = result.response.blog.name;
+			var description = result.response.blog.description
+			var likes = result.response.blog.likes;
+			var posts = result.response.blog.posts;
+			$("#blog-title").text("Blog Title: " + title);
+			$("#blog-name").text("Name: " + name);
+			if (description !== "") {
+				$("#blog-description").text("Description: " + description);	
+			}
+			if (likes !== undefined) {
+				$("#likes-results").text("Total Likes: " + likes);
+			}
+			if (posts !== undefined) {
+				$("#posts-results").text("Total Posts: " + posts);
+				$("#posts").show();
+			}
+
+			$("#like-div").show();
+
+			
+			if ($("#name").prop("checked")) {
+				console.log("hello");
+
+			}
+			// if ($("#likes").prop("checked") {
+				
+			// }
+			// if ($("#posts").prop("checked") {
+				
+			// }
+			// if ($("#description").prop("checked") {
+				
+			// }
 		})
-			// getPosts();
+		getPosts();
 	}
 
 	function tagSearch() {
 		$.ajax ({
 			url: "http://localhost:3000/v2/tagged", 
 			data: {
-				tag: $('#tag-term').val(),
+				tag: $("#tag-term").val(),
 				api_key: key,
 			},
 			error: (function (jqXHR, textStatus, errorThrown) {
@@ -151,7 +199,6 @@ $(function () {
             })
 		}).done(function (result) {
 			console.log (result);
-			
 			var n = 0;
 			$("#newList").remove();
 			if ($("#tag-radio-ten").prop("checked")) {
