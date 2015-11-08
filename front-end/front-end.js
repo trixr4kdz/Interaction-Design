@@ -1,57 +1,26 @@
 $(function () {
 
 	key = "1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv";
+	var name = "";
 
 	$("#search-button").click(function () {
-		$.ajax ({
-            url: "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/info", 
-            error: (function (jqXHR, textStatus, errorThrown) {
-            	console.log(jqXHR.status);
-            	console.log(errorThrown);
-            	$('#blog-title').text ("SORRY, THAT BLOG DOES NOT EXIST :(");
-            }),
-			data:
-			{
-				api_key: key
-			}
-		}).done(function (result) {
-			console.log(result);
-			$('#blog-title').text("Blog Title: " + result.response.blog.title);
-			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
-		})
-		getPosts();
+		mainSearch();
 	});
 
+	$("#search-term").keypress(function(e) {
+	    if(e.which == 13) {
+	        mainSearch();
+	    }
+	});
+
+	$("#tag-term").keypress (function(e) {
+		if(e.which == 13) {
+	        tagSearch();
+	    }
+	})
+
 	$("#tag-button").click(function () {
-		$.ajax ({
-			url: "http://localhost:3000/v2/tagged", 
-			data: {
-				tag: $('#tag-term').val(),
-				api_key: key,
-				limit: 100
-			},
-			error: (function (jqXHR, textStatus, errorThrown) {
-            	console.log(jqXHR.status);
-            	console.log(errorThrown);
-            	if ($("#tag-term").val() == "") {
-            		$("#tag-field").show();
-            	}
-            })
-		}).done(function (result) {
-			console.log (result);
-			if ($("#tag-radio-ten").prop("checked")) {
-				alert ("TEN");
-			}
-			else if ($("#tag-radio-fifteen").prop("checked")) {
-				alert ("FIFTEEN");
-			}
-			else if ($("#tag-radio-twenty").prop("checked")) {
-				alert ("TWENTY");
-			}
-			if ($("#tag-term").val() != "") {
-            	$("#tag-field").hide();
-            }
-		})
+		tagSearch();
 	});
 
 	$("#random-button").click(function () {
@@ -141,4 +110,75 @@ $(function () {
     	}
     	return text;
 	}
+
+	function mainSearch() {
+		$.ajax ({
+	        url: "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/info", 
+	        error: (function (jqXHR, textStatus, errorThrown) {
+	        	$('#blog-title').text ("SORRY, THAT BLOG DOES NOT EXIST :(");
+	        	if ($("#search-term").val() == "") {
+            		$("#main-field").show();
+            	}
+            	else {
+            		$("#main-field").hide();
+            	}
+	        }),
+			data:
+			{
+				api_key: key
+			}
+		}).done(function (result) {
+			console.log(result);
+			$('#blog-title').text("Blog Title: " + result.response.blog.title);
+			$('#blog-details').html("Blog Name: " + result.response.blog.name + "<br>" + "Blog description: " + result.response.blog.description)
+		})
+			// getPosts();
+	}
+
+	function tagSearch() {
+		$.ajax ({
+			url: "http://localhost:3000/v2/tagged", 
+			data: {
+				tag: $('#tag-term').val(),
+				api_key: key,
+			},
+			error: (function (jqXHR, textStatus, errorThrown) {
+            	if ($("#tag-term").val() == "") {
+            		$("#tag-field").show();
+            		$("#newList").remove();
+
+            	}
+            })
+		}).done(function (result) {
+			console.log (result);
+			
+			var n = 0;
+			$("#newList").remove();
+			if ($("#tag-radio-ten").prop("checked")) {
+				n = 10;
+			}
+			else if ($("#tag-radio-fifteen").prop("checked")) {
+				n = 15;
+			}
+			else if ($("#tag-radio-twenty").prop("checked")) {
+				n = 20;
+			}
+			$("#tag-list").append(
+				"<ul id='newList'></ul>"
+			);
+			for (i = 0; i < n; i++) {
+				name = result.response[i].blog_name;
+				$("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
+					name + " </label></li>");
+			}
+			if ($("#tag-term").val() != "") {
+            	$("#tag-field").hide();
+            }
+		})
+	}
 });
+
+function taggedToSearchField(name) {
+	$("#search-term").val(name);
+	$("#search-term").text(name);
+}
