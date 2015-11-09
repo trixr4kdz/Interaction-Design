@@ -2,8 +2,13 @@ $(function () {
 
 	key = "1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv";
 	var name = "";
+	var title = "";
+	var name = "";
+	var description = "";
+	var likes = "";
+	var posts = "";
 
-	$("#search-button").click(function () {
+	$(".search-button").click(function () {
 		mainSearch();
 	});
 
@@ -25,6 +30,10 @@ $(function () {
 	});
 
 	$("#random-button").click(function () {
+		// $("#tag-term").val(generateRandomID());
+		// console.log($("#tag-term").val());
+		// tagSearch();
+		// showResults(result);
 		random_id = generateRandomID();
 		$.ajax ({
 			url: "http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "/info",
@@ -32,12 +41,12 @@ $(function () {
 				api_key: key
 			},
 			error: (function (jqXHR, textStatus, errorThrown) {
-            	console.log(jqXHR.status);
             	console.log(errorThrown);
             	removeResults();
             })
 		}).done(function (result) {
 			showResults(result);
+
 		})
 	});
 
@@ -94,13 +103,13 @@ $(function () {
 
 	function generateRandomID() {
     	var text = "";
-    	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    	var possible = "abcdefghijklmnopqrstuvwxyz";
 
-    	for(var i = 0; i < 7; i++) {
+    	var num_letters = Math.floor(Math.random() * 5) + 1;
+    	for(var i = 0; i < num_letters; i++) {
         	text += possible.charAt(Math.floor(Math.random() * possible.length));
     	}
     	return text;
-    	//Maybe instead of the blog-name, use the associated IDs
 	}
 
 	function removeResults() {
@@ -110,6 +119,7 @@ $(function () {
     	$("#posts-results").text ("");
     	$("#blog-description").html("");
     	$("#posts").hide();
+    	$("#hidden-avatar-description").hide();
     	$("#avatar-image").attr({
 			src: "", 
 			alt: ""
@@ -117,11 +127,12 @@ $(function () {
 	}
 
 	function showResults(result) {
-		var title = result.response.blog.title;
-		var name = result.response.blog.name;
-		var description = result.response.blog.description
-		var likes = result.response.blog.likes;
-		var posts = result.response.blog.posts;
+		removeResults();
+		title = result.response.blog.title;
+		name = result.response.blog.name;
+		description = result.response.blog.description
+		likes = result.response.blog.likes;
+		posts = result.response.blog.posts;
 		$("#blog-title").text("Blog Title: " + title);
 		$("#blog-name").text("Name: " + name);
 		if (description !== "") {
@@ -143,7 +154,6 @@ $(function () {
 	        	removeResults();
 	        	if ($("#search-term").val() == "") {
             		$("#main-field").show();
-            		// $("#like-div").hide();
             	}
             	else {
             		$("#main-field").hide();
@@ -155,7 +165,6 @@ $(function () {
 			}
 		}).done(function (result) {
 			showResults(result);
-			// $("#like-div").show();
 		})
 		getPosts();
 	}
@@ -193,22 +202,37 @@ $(function () {
 			);
 			for (i = 0; i < n; i++) {
 				name = result.response[i].blog_name;
-				var stuff;
-				if (result.response[i].photos !== undefined) {
+				var link = "";
+				var anchor = "";
+				var photo = result.response[i].photos;
+				if (photo !== undefined) {
+					link = result.response[i].photos[0].original_size.url;
+					anchor = $("<a/>").attr({
+						id: "image-link-" + i,
+						href: link
+					})
 					stuff = $("<img/>").attr({
-						src: result.response[i].photos[0].original_size.url,
+						src: link,
 						alt: "image",
 						width: "256px"
 					})
+					$("#newList").append(anchor);
+					$("a").append(stuff);
+					console.log(anchor.attr("id"));
 				}
 				else {
 					stuff = $("<p>This blog does not have an image associated with it.</p>");
 				}
+				link = "";
+				anchor = "";
+
 				$("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
 					name + " </label></li>");
-				$("#newList").append(stuff);	
+
+				$("#newList").append(stuff);
 				$("#newList").append("<br> <br>")
 			}
+
 			if ($("#tag-term").val() != "") {
             	$("#tag-field").hide();
             }
@@ -219,4 +243,5 @@ $(function () {
 function taggedToSearchField(name) {
 	$("#search-term").val(name);
 	$("#search-term").text(name);
+	$(".blogger-avatar-name").text(name);
 }

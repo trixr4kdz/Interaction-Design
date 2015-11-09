@@ -26,8 +26,7 @@
                     <label for="search-term">Enter a blog name:</label>
                     <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
                     <center>
-                        <button id="search-button" class="btn btn-primary">Search</button>
-                        <button id="avatar-button" class="btn btn-primary">Click here to see this blogger's avatar</button>
+                        <button class="search-button btn btn-primary">Display details</button>
                     </center>
                     <p id="main-field" hidden>
                         <strong>The search field is empty.</strong>
@@ -43,10 +42,10 @@
                     <br>
                     
                     <div>
-                        <button id="random-button" class="btn btn-primary">Click here to display a random blog</button>
+                        <button id="random-button" class="btn btn-primary">Display a random blog</button>
                     </div>
 
-                    Warning: Clicking this button will probably not give any results since it is using a random string generator.
+                    Warning: Clicking this button may or may not give any results since it is using a random string generator.
                     </center>
                     <br>
                 </div>
@@ -63,15 +62,16 @@
                 <p id="posts-results"></p>
                 <div id="posts" hidden>
                     <center>
-                        <button id="posts-button" class="btn btn-primary">Click here to see the top 20 posts from this blog</button>
+                        <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
+                        <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger's</span>'s avatar</button>
+                        <button id="posts-button" class="btn btn-primary">View top 20 posts from <span class="blogger-avatar-name">this blogger's</span>'s blog</button>
                     </center>
-                    <br>
-                    <br>
                 </div>
-
-                <center>
-                    <img id="avatar-image" src="" alt="" width="256px">
-                </center>
+                <p>
+                    <center>
+                        <img id="avatar-image" src="" alt="" width="256px">
+                    </center>
+                </p>
             </div>
 
             <div class="col-md-6">
