@@ -1,124 +1,139 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Tumblr Front-End</title>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <title>Tumblr Front-End</title>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <link rel="stylesheet" href="./css/front-end.css">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-</head>
-<body>
-    
-    <div class="container">
-        <div class="row">
-            <div class="column-xs-12"><h3>Simple Tumblr</h3></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="column-xs-12"><h3>Simple Tumblr</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <p>
+                            See blog details:
+                        </p>
+                        <label for="search-term">Enter a blog name:</label>
+                        <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
+                        <center>
+                            <button class="search-button btn btn-primary">Display details</button>
+                        </center>
+                        <p id="main-field" class="error"hidden>
+                            <strong>The search field is empty.</strong>
+                        </p>
+                    </div>
+                    Note: Clicking the display button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
+                
+                    <div>
+
+                        <br>
+                        <center><strong>OR</strong>
+                        <br>
+                        <br>
+                        
+                        <div>
+                            <button id="random-button" class="btn btn-primary">Display a random blog</button>
+                        </div>
+
+                        Warning: Clicking this button may or may not give any results since it is using a random string generator.
+                        </center>
+                        <br>
+                    </div>
+                       
+                    <bt>
+                    <br>
+                    <div id="results" hidden>
+                        <label id="">The results will be shown below: </label>
+                    </div>
+                    <br>
+                    <br>
+                    <strong><p id="blog-title"></p></strong>
+                    <p id="blog-name"></p>
+                    <p id="blog-description"></p>
+                    <p id="likes-results"></p>
+                    <p id="posts-results"></p>
+                    <div id="posts" hidden>
+                        <center>
+                            <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
+                            <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger</span>'s avatar</button>
+                            <button id="posts-button" class="btn btn-primary">View top posts from <span class="blogger-avatar-name">this blogger</span>'s blog</button>
+                        </center>
+                        <strong>Note: Clicking the display buttons will clear the results below if the avatar image and/or posts are already displayed. </strong>
+                    </div>
+                    <br>
+                    <div id="avatar-header" hidden>
+                        <strong>Here is the avatar image:</strong>
+                        <center>
+                            <img id="avatar-image" src="" alt="" width="256px">
+                        </center>
+                    </div>
+                    <br>
+                    <div id="show-posts" hidden>
+                        <strong>Here are the blog posts:</strong>
+                        <center>
+                            <ul>
+                            </ul>
+                        </center>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
                     <p>
-                        Search by blog name:
+                        Search ALL posts by tags:
                     </p>
-                    <label for="search-term">Enter a blog name to search for:</label>
-                    <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
-                    <button id="search-button" class="btn btn-primary">Search</button>
-                    <button id="avatar-button" class="btn btn-primary">Click here to see this blogger's avatar</button>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="search-term">Enter a tag to search for:</label>
+                        <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
+                        
+                        <p id="tag-field" class="error"hidden>
+                            <strong>The search field is empty. Cannot display results while the field is empty.</strong>
+                        </p>
 
-            <div class="col-md-6">
-                <p>
-                    Search by tags:
-                </p>
-                <div class="form-group">
-                    <label for="search-term">Enter a tag to search for:</label>
-                    <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
-                    
-                    <p>
-                        How many results would you like to see?
-                    </p>
+                        <div id="tag-radio-buttons" hidden>
+                            <p>
+                                How many results would you like to see?
+                            </p>
 
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-ten" checked>10</label>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio" id="tag-radio-ten" checked>10</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio" id="tag-radio-fifteen">15</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
+                            </div>
+                            
+                            <button id="tag-button" class="btn btn-primary">List the results</button>
+
+                            <p id="radio-prompt" hidden>
+                                Try clicking on one of the radio buttons! The name will appear in the search box to the left for easy access.
+                            <p>
+                        </div>
+
+                        <br>
+
+                        <div id="tag-list">
+                        </div>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-fifteen">15</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio" id="tag-radio-twenty">20</label>
-                    </div>
-                    <button id="tag-button" class="btn btn-primary">Search</button>
                 </div>
             </div>
         </div>
 
-        <strong>OR</strong>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+        <script src="js/front-end.js"></script>
 
-        <br>
-        <br>
-
-        Warning: Clicking this button will probably not give any results since it is using a random string generator.
-        <div class="row">
-            <div class="col-md-6">
-                <button id="random-button" class="btn btn-primary">Click here to display a random blog</button>
-            </div>
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="col-md-6">
-                <p>
-                    Which would you like to display about this blog?
-                </p>
-                <div class="checkbox" id="name">
-                    <label><input type="checkbox" value="">Name</label>
-                </div>
-                <div class="checkbox" id="likes">
-                    <label><input type="checkbox" value="">Likes</label>
-                </div>
-                <div class="checkbox" id="posts">
-                    <label><input type="checkbox" value="">Posts</label>
-                </div>
-                <div class="checkbox" id="description">
-                    <label><input type="checkbox" value="">Description</label>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <p>
-                    How many posts in this blog would you like to see?
-                </p>
-
-                <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-ten">10</label>
-                </div>
-                <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-fifteen">15</label>
-                </div>
-                <div class="radio">
-                  <label><input type="radio" name="optradio" id="posts-radio-twenty">20</label>
-                </div>
-            </div>
-
-        </div>
-        
-        <br>
-        <label>The results will be shown below: </label>
-        <br>
-        <br>
-        <p id="blog-title"></p>
-        <p id="blog-details"></p>
-        <img src="images.jpg" alt="placeholder">
-
-    </div>
-
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-    <script src="front-end.js"></script>
-
-</body>
+    </body>
 </html>

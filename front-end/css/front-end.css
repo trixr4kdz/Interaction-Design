@@ -1,0 +1,9 @@
+.error {
+	color: red;
+}
+
+.col-md-6 {
+	border-style: solid;
+	border-width: 2px;
+	border-color: lightblue;
+}
