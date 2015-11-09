@@ -9,6 +9,7 @@ $(function () {
 	var posts = "";
 
 	$(".search-button").click(function () {
+		$(".blogger-avatar-name").text ($("#search-term").val());
 		mainSearch();
 	});
 
@@ -22,7 +23,10 @@ $(function () {
 		if(e.which == 13) {
 	        tagSearch();
 	    }
-	    $("#tag-radio-buttons").show();
+	})
+
+	$("#tag-term").click (function () {
+		$("#tag-radio-buttons").show();
 	})
 
 	$("#tag-button").click(function () {
@@ -30,6 +34,9 @@ $(function () {
 	});
 
 	$("#posts-button").click(function () {
+		$("#show-posts ul").empty();
+		name = $("#search-term").val();
+		$(".blogger-avatar-name").text(name);
 		getPosts();
 	})
 
@@ -46,9 +53,9 @@ $(function () {
             })
 		}).done(function (result) {
 			name = random_id
-			showResults(result);
-			$("#search-term").val(name)
+			$("#search-term").val(name);
 			$(".blogger-avatar-name").text(name);
+			showResults(result);
 		})
 	});
 
@@ -89,9 +96,20 @@ $(function () {
 			success: function(posts){
 				$.each(posts.response.posts, function(i, item) {
                		var content = item.body;
-                	$("#Posts ul").append('<li>' + content + '</li>')
+               		if (item.body !== undefined) {
+                		$("#show-posts ul").append('<li class="post">' + content + '</li>');
+                	}
+                	if (item.type === "photo") {
+                		var img = $("<img>").attr({
+							src: item.photos[0].original_size.url,
+							alt: "post",
+							width: "256px",
+							height: "256px"
+						})
+                		$("#show-posts ul").append('<li class="post">' + '</li>');
+                		$("#show-posts ul").append(img);
+                	}
             	})
-            	console.log(posts)
             }
 		}).done(function (result) {
 			console.log(result);
@@ -121,6 +139,7 @@ $(function () {
 			src: "", 
 			alt: ""
 		});
+		$("#show-posts ul").empty();
 	}
 
 	function showResults(result) {
@@ -138,7 +157,7 @@ $(function () {
 		if (likes !== undefined) {
 			$("#likes-results").text("Total Likes: " + likes);
 		}
-		if (posts !== undefined || posts !== 0) {
+		if (posts !== undefined) {
 			$("#posts-results").text("Total Posts: " + posts);
 			$("#posts").show();
 		}
@@ -163,7 +182,6 @@ $(function () {
 		}).done(function (result) {
 			showResults(result);
 		})
-		getPosts();
 	}
 
 	function tagSearch() {
@@ -200,28 +218,20 @@ $(function () {
 			for (i = 0; i < n; i++) {
 				name = result.response[i].blog_name;
 				var link = "";
-				var anchor = "";
 				var photo = result.response[i].photos;
 				if (photo !== undefined) {
 					link = result.response[i].photos[0].original_size.url;
-					anchor = $("<a/>").attr({
-						id: "image-link-" + i,
-						href: link
-					})
 					stuff = $("<img/>").attr({
 						src: link,
 						alt: "image",
 						width: "256px"
 					})
 					$("#newList").append(anchor);
-					// $("a").append(stuff);
-					console.log(anchor.attr("id"));
 				}
 				else {
 					stuff = $("<p>This blog does not have an image associated with it.</p>");
 				}
 				link = "";
-				anchor = "";
 
 				$("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
 					name + " </label></li>");

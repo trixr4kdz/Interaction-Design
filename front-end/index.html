@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="front-end.css" type="text/css">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
@@ -32,7 +34,7 @@
                         <strong>The search field is empty.</strong>
                     </p>
                 </div>
-                Note: Clicking the search button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
+                Note: Clicking the display button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
             
                 <div>
 
@@ -52,7 +54,9 @@
                    
                 <bt>
                 <br>
-                <label id="">The results will be shown below: </label>
+                <div id="results" hidden>
+                    <label id="">The results will be shown below: </label>
+                </div>
                 <br>
                 <br>
                 <strong><p id="blog-title"></p></strong>
@@ -64,7 +68,7 @@
                     <center>
                         <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
                         <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger</span>'s avatar</button>
-                        <button id="posts-button" class="btn btn-primary">View top 20 posts from <span class="blogger-avatar-name">this blogger</span>'s blog</button>
+                        <button id="posts-button" class="btn btn-primary">View top posts from <span class="blogger-avatar-name">this blogger</span>'s blog</button>
                     </center>
                 </div>
                 <p>
@@ -72,6 +76,11 @@
                         <img id="avatar-image" src="" alt="" width="256px">
                     </center>
                 </p>
+                <div id="show-posts">
+                    <ul>
+
+                    </ul>
+                </div>
             </div>
 
             <div class="col-md-6">
