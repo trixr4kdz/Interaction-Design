@@ -29,11 +29,11 @@ $(function () {
 		tagSearch();
 	});
 
+	$("#posts-button").click(function () {
+		getPosts();
+	})
+
 	$("#random-button").click(function () {
-		// $("#tag-term").val(generateRandomID());
-		// console.log($("#tag-term").val());
-		// tagSearch();
-		// showResults(result);
 		random_id = generateRandomID();
 		$.ajax ({
 			url: "http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "/info",
@@ -45,8 +45,10 @@ $(function () {
             	removeResults();
             })
 		}).done(function (result) {
+			name = random_id
 			showResults(result);
-
+			$("#search-term").val(name)
+			$(".blogger-avatar-name").text(name);
 		})
 	});
 
@@ -85,19 +87,14 @@ $(function () {
 			},
 			dataType: "jsonp",
 			success: function(posts){
-				var postings = posts.response.posts;
-				var text = "";
-				for (var i in postings) {
-  					var p = postings[i];
-  					// text += '<li><img src=' + p.photos[0].original_size.url +'><a href='+ p.post_url +'>'+ p.source_title +'</a></li>';
-				}
-				$("ul").append(text);
-  				// Fill and UL with the posts
-    		}
+				$.each(posts.response.posts, function(i, item) {
+               		var content = item.body;
+                	$("#Posts ul").append('<li>' + content + '</li>')
+            	})
+            	console.log(posts)
+            }
 		}).done(function (result) {
 			console.log(result);
-
-			$("body").append(result);
 		})
 	}
 
@@ -217,7 +214,7 @@ $(function () {
 						width: "256px"
 					})
 					$("#newList").append(anchor);
-					$("a").append(stuff);
+					// $("a").append(stuff);
 					console.log(anchor.attr("id"));
 				}
 				else {
