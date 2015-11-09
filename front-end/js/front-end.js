@@ -74,6 +74,7 @@ $(function () {
    			},
    			success: function(avatar){
    				name = $("#search-term").val()
+   				$("#avatar-header").show();
 				$("#avatar-image").attr({
 					src: avatar.response.avatar_url, 
 					alt: "avatar"
@@ -98,6 +99,7 @@ $(function () {
 			success: function(posts){
 				$.each(posts.response.posts, function(i, item) {
                		var content = item.body;
+               		$("#show-posts").show();
                		if (item.body !== undefined) {
                 		$("#show-posts ul").append('<li class="post">' + content + '</li>');
                 	}
@@ -116,7 +118,6 @@ $(function () {
 	function generateRandomID() {
     	var text = "";
     	var possible = "abcdefghijklmnopqrstuvwxyz";
-
     	var num_letters = Math.floor(Math.random() * 5) + 1;
     	for(var i = 0; i < num_letters; i++) {
         	text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -132,10 +133,9 @@ $(function () {
     	$("#blog-description").html("");
     	$("#posts").hide();
     	$("#hidden-avatar-description").hide();
-    	$("#avatar-image").attr({
-			src: "", 
-			alt: ""
-		});
+    	$("#avatar-image").attr({src: "", alt: ""});
+		$("#show-posts").hide();
+		$("#avatar-header").hide();
 		$("#show-posts ul").empty();
 	}
 
@@ -211,7 +211,7 @@ $(function () {
 				name = result.response[i].blog_name;
 				var link = "";
 				var photo = result.response[i].photos;
-				(photo !== undefined) ? ((link = result.response[i].photos[0].original_size.url) && (stuff = makeImageTag (link, "image"))) : stuff = $("<p>This blog does not have an image associated with it.</p>")
+				(photo !== undefined) ? ((link = result.response[i].photos[0].original_size.url) && (stuff = makeImageTag (link, "image"))) : stuff = $("<p>This user does not have a photo associated with it.</p>")
 				$("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
 					name + " </label></li>");
 				$("#newList").append(stuff);
