@@ -37,13 +37,15 @@ The purpose of this paper is to design a new user interface for the Instagram ap
      \indent In addition to these applications, touchscreen devices have also become a norm. The iPhone, for example, though invented only 8 years ago, has quickly become a popular mobile device for the masses. Phones, in general, have actually evolved into a multi-purpose tool in our everyday lives. Utilizing touch-capable mobile handheld devices as its main system might have even caused the boom in the usage of social media applications. \\ \\
      \indent In this paper, I will focus on a specific social media, one that is mainly used to post pictures for other people to see, called Instagram, focusing on the application that is downloaded through a mobile touch-enabled phone.
      
+     
 \section{System Description}
 \label{System Description}
    \indent 
    \indent Although there is also a desktop client for Instagram, called Webstagram, the main focus of this paper is to address the designs in the mobile application. There is no question that Instagram would be used more frequently through a phone its main appealing quality is its capability to quickly post snapshots in a matter of seconds. A user can easily choose an already existing picture in their camera roll and tap on a few buttons and their pictures can be viewed by their followers. Additionally, users have the option of taking a picture from within the application so that they do not have to switch between it and the built-in camera application in their device. In addition to the picture, the user is also given an option to write a quick description about the image. \\ \\
    \indent The current design of Instagram appears to be already simplistic, which makes it very intuitive to new users. In the interface, users can scroll through their "news" feed, which contains recent posts of users they follow, or they can take a picture themselves and post it on their feed. Figure 1a shows some available tools for the user after they had just taken a picture. Additionally, the user can also "tag" the location where they took that photo. Figure 1b gives a map of the area where a photo was taken and marks those significant places with the corresponding pictures. For example, in Figure 1b, three pictures were taken near Chiu Tam Path, Hong Kong. The availability of this kind of map gives the user a more visual overview of the places they had visited in the past. 
-   
-\begin{figure}
+   \indent These figures present a way to further improve upon the interface of Instagram. Although there are various photo editing tools in Instagram, it lacks the ability to manually draw on the pictures directly. Using Snapchat, another popular social media where the user sends pictures to others, as an example, it is evident that consumers would find the freedom to doodle on the pictures to be satisfying. Moreover, with respect to the map functionality seen in Figure 1b, there is a potential to actually create a more GPS-like feature so that users can trace back exactly which places the user visited first.
+      
+\begin{figure}[ht]
 \centering
 \begin{subfigure}[b]{.5\textwidth}
    \centering
@@ -55,26 +57,37 @@ The purpose of this paper is to design a new user interface for the Instagram ap
 \begin{subfigure}[b]{.5\textwidth}
     \centering
     \includegraphics[height=\textwidth]{images/maps_with_pictures.png}
-    \caption{Instagram allows users to group pictures based on where they were taken.}
+    \caption{Instagram allows users to group pictures together based on where they were taken.}
     \label{instagram_pictures}
 \end{subfigure}
-\caption{Some features available in the Instagram interface}
+\caption{Some features that are available in the Instagram interface}
 \end{figure}
-
 
 \section{Top-Level Design}
 \label{Top-Level Design}
    \indent 
-   \indent The design would incorporate the Google Maps API and the Instagram API into a conglomeration that allows for posts, as well as 
-   \\ \\
-   \indent The application will employ Snapchat's feature that allows the user to draw on the images. Currently, Instagram only allows various filters other lighting adjustments
-    \\
+   \indent In order to accommodate the additional features that will be involved, the integration of various other APIs into Instagram is a must since its own API lack these functionalities. From looking at Figure 1b, it would seem that Instagram is already utilizing the Google Maps API, though I would argue that it isn't being used to its fullest potential. 1b is only using the pictures as "pins" to mark special places, but the Google Maps API is capable of much more. One such feature is the ability to create a timeline history of visited places, which, when implemented, would grant the users the option to view their past journeys. The overall design for that particular aspect of Instagram would be incorporating the two APIs such that a user can view their maps in a GPS-like fashion. That is, the map would contain lines that visually connect two pictures (but would actually be linking two locations together) so that the Instagrammer can follow where they have been to or locate the area where they tend to explore. Figure 2 depicts what a certain user's "footprint" might look like, albeit they would be given an option to separate different paths, similar to how one can choose a path from a 2 or 3 different options when using a GPS device. \\
+   
+\begin{figure}[ht]
+\centering
+\includegraphics[width=3in]{images/gps.png}
+\caption{Similar to a GPS path, the blue line would heuristically map out the path that the user took based on their posts.}
+\label{travel_history}
+\end{figure}
+
+   \indent In Figure 2, the green dot will be replaced by a post with a specified location when the feature is implemented into Instagram. Similar to the Google Maps feature to redirect paths, the user will also be given an option to drag the path in order to manually draw the routes they have traversed. Of course, this figure is showing only one case for one specific path that the user took to get from one place to another. For cases where the user took a more significant number of pictures and posted them on his/her feed, Figure 3 demonstrates what the map could look like. \\
+
 \begin{figure}[ht]
 \centering
 \includegraphics[width=5in]{images/google_maps_tracking.png}
 \caption{Google Maps tracks users' travel history}
 \label{google_tracking}
 \end{figure}
+
+   \indent In the figure above, the circles, which indicate places of interest, would also be replaced by the pictures that the user posted on their feed (similar to what is seen in Figure 1b). Note that the user can still zoom in and out of the map in order to see the map more closely or in less detail. If viewed in lesser detail such that the pictures overlap, then those would just be grouped together. Again, this is similar to Figure 1b, where there is a number on the upper-right corner of a given picture to indicate how many are overlapping; for instances where this happen, the posts would be grouped chronologically such that the most recent post is what is seen.\\ \\
+   \indent Additional features that would improve the users' experience with this feature is to actually show the exact date, time, and address of their posts. By doing this, the users can log exactly where they were at what times, if they wish. The user will also be given an option to delete such information from their "adventure". Figure 4 shows what this feature would look like when implemented. \\ \\
+   
+\pagebreak
 
 \begin{figure}[ht]
 \centering
@@ -83,36 +96,35 @@ The purpose of this paper is to design a new user interface for the Instagram ap
 \label{google_tracking}
 \end{figure}
 
+   \indent For the feature that employs Snapchat's photo-drawing capabilities, one simple addition to the interface is all that is needed. Figure 5 shows the layout for the new design. Here, the layout will keep the original design of the screen after a photo has been taken (as seen in Figure 1a) but there would be an additional vertical color gradient slider at the upper right hand corner similar to the one used by Snapchat. In order to avoid the problem of accidentally tapping the gradient slider, this feature can be accessed through the Tools section and will only appear when it is enabled. The user can flip through the various other tools by using a flicking motion. 
+      
 \begin{figure}[ht]
 \centering
-\includegraphics[width=3in]{images/gps.png}
-\caption{Google Maps tracks users' travel history.}
-\label{travel_history}
+\includegraphics[width=2in]{images/wireframe.png}
+\caption{The vertical slider located in the upper-right hand corner of the screen will allow the user to choose which font color they wish to use.}
+\label{wireframe}
 \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=3in]{images/view_your_timeline_prompt.png}
-\caption{The new design would allow users to view where they have been, according to their posts' location.}
-\label{view_timeline}
-\end{figure}
+\pagebreak
+   
+\section{Usage Scenarios}
+\label{Usage Scenarios}
+   \indent
+   \indent The main purpose of the new features is to improve the user experience for the Instagram mobile application. As with the original mental model for Instagram, the user can still post any pictures of their choosing onto their respective news feeds. However, with the addition of the map-like feature, users can easily log the places they have been to, which is similar to an online picture diary. A possible scenario to this would be when the user is studying abroad and would like to record their adventures. For college students especially, having the opportunity to explore another country with their peers and still continue their studies is an experience worth cherishing. By posting to Instagram and marking when and where exactly they were during their stay abroad, they can revisit those memories in the future or even view which areas they haven't explored yet. \\ \\
+   \indent For the added drawing capabilities, making the pictures act more like canvases allows the user to more freely express their ideas. Practically any scenario that involves taking a picture and providing a caption would apply to this feature. For specificity's sake, we can say that a couple of stressed college students want to release their feelings of tension by trying to prank each other. They can do so by taking an innocent-looking picture of each other, but manually inserting their creativity into the picture using their fingertips. Figure 6 shows what a creative, witty person might come up with when allowed the option to draw on a photograph.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[height=4in]{images/rip_ed.png}
-\caption{An example of doodling on a picture. The flowers were hand-drawn directly on the picture.}
+\caption{An example of doodling on a picture. The flowers were hand-drawn directly on the picture. Note: The person in the picture has granted me permission to use this picture.}
 \label{ed}
 \end{figure}
 
-\section{Usage Scenarios}
-\label{Usage Scenarios}
-   \indent \\
-   \indent The main purpose of the new features in the interface is to allow the user to easily view the places that they have visited. \\
-
+\pagebreak
 
 \section{Rationale}
-   \indent \\
-   \indent The driving force
+   \indent
+   \indent The driving force for the new interaction design to Instagram is to grant users with a more satisfactory experience with the application.  
 
 
 \section{Usability Metric ``Forecast''}
