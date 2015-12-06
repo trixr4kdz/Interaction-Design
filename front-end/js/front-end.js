@@ -3,7 +3,6 @@ $(function () {
     var api_key = "1yk3GzGkBaDRoW7niKqMk00xyIPBJ8UccF0zrmvcVk95fHNqJv";
     var name = "";
     var title = "";
-    var name = "";
     var description = "";
     var likes = "";
     var posts = "";
@@ -23,11 +22,11 @@ $(function () {
         if (e.which === 13) { 
             tagSearch();
         }
-    })
+    });
 
     $("#tag-term").click (function () { 
         $("#tag-radio-buttons").show();
-    })
+    });
 
     $("#tag-button").click(tagSearch);
 
@@ -36,10 +35,10 @@ $(function () {
         name = $("#search-term").val();
         $(".blogger-avatar-name").text(name);
         getPosts();
-    })
+    });
 
     $("#random-button").click(function () { 
-        var random_id = generateRandomID(); // JD: 15
+        var random_id = generateRandomID(); 
         $.ajax ({ 
             url: "http://localhost:3000/v2/blog/" + random_id + ".tumblr.com" + "/info",
             data:{ 
@@ -66,7 +65,7 @@ $(function () {
         } else { 
             $("#main-field").hide();
         }
-    }
+    };
 
     $("#avatar-button").click(function () { 
         $.ajax ({ 
@@ -75,8 +74,8 @@ $(function () {
             data: { 
                 api_key: api_key
             },
-            success: function (avatar) {  // JD: 10
-                name = $("#search-term").val()
+            success: function (avatar) { 
+                name = $("#search-term").val();
                 $("#avatar-header").show();
                 $("#avatar-image").attr({ 
                     src: avatar.response.avatar_url, 
@@ -86,10 +85,10 @@ $(function () {
             }
         }).done(function (result) { 
             console.log (result);
-            if (result.meta.msg === "Not Found") { // JD: 12
+            if (result.meta.msg === "Not Found") { 
                 console.log ("User does not exist");
             }
-        })
+        });
     });
 
     var getPosts = function () { 
@@ -99,8 +98,8 @@ $(function () {
                 api_key: api_key
             },
             dataType: "jsonp",
-            success: function (posts) {  // JD: 10
-                $.each(posts.response.posts, function (i, item) {  // JD: 10
+            success: function (posts) { 
+                $.each(posts.response.posts, function (i, item) { 
                     var content = item.body;
                     $("#show-posts").show();
                     if (item.body !== undefined) { 
@@ -108,25 +107,26 @@ $(function () {
                     }
                     if (item.type === "photo") { 
                         var img = makeImageTag (item.photos[0].original_size.url, "post");
-                        $("#show-posts ul").append('<li class="post">' + '</li>');
-                        $("#show-posts ul").append(img); // JD: 21
+                        $("#show-posts ul")
+                            .append('<li class="post">' + '</li>')
+                            .append(img);
                     }
-                })
+                });
             }
         }).done(function (result) { 
             console.log (result);
-        })
-    }
+        });
+    };
 
     var generateRandomID = function () { 
         var text = "";
         var possible = "abcdefghijklmnopqrstuvwxyz";
         var num_letters = Math.floor(Math.random() * 5) + 1;
-        for (var i = 0; i < num_letters; i++) {  // JD: 11
+        for (var i = 0; i < num_letters; i++) { 
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         }
         return text;
-    }
+    };
 
     var removeResults = function () { 
         $("#blog-title").text("SORRY, THAT BLOG DOES NOT EXIST :(");
@@ -135,13 +135,13 @@ $(function () {
         $("#posts", "#hidden-avatar-description", "#show-posts", "#avatar-header").hide();
         $("#avatar-image").attr({src: "", alt: ""});
         $("#show-posts ul").empty();
-    }
+    };
 
     var showResults = function (result) { 
         removeResults();
         title = result.response.blog.title;
         name = result.response.blog.name;
-        description = result.response.blog.description
+        description = result.response.blog.description;
         likes = result.response.blog.likes;
         posts = result.response.blog.posts;
         $("#blog-title").text("Blog Title: " + title);
@@ -156,7 +156,7 @@ $(function () {
             $("#posts-results").text ("Total Posts: " + posts);
             $("#posts").show ();
         }
-    }
+    };
 
     var mainSearch = function () { 
         $.ajax ({ 
@@ -169,13 +169,13 @@ $(function () {
                     $("#main-field").hide();
                 }
             }),
-            data: {  // JD: 23
+            data: { 
                 api_key: api_key
             }
         }).done (function (result) {  // JD: 24
             showResults(result);
-        })
-    }
+        });
+    };
 
     var tagSearch = function () { 
         $.ajax ({ 
@@ -185,7 +185,7 @@ $(function () {
                 api_key: api_key,
             },
             error: (function (jqXHR, textStatus, errorThrown) { 
-                if ($("#tag-term").val() === "") {  // JD: 12, 25
+                if ($("#tag-term").val() === "") {  // JD: 25
                     $("#tag-field").show();
                     $("#newList").remove();
                 }
@@ -197,50 +197,45 @@ $(function () {
             if (n >= 20) {
                 if ($("#tag-radio-fifteen").prop("checked")) { 
                     n = 15;
-                } // JD: 26
-                else if ($("#tag-radio-twenty").prop("checked")) { 
+                } else if ($("#tag-radio-twenty").prop("checked")) { 
                     n = 20;
-                } // JD: 26
-                else {
+                } else {
                     n = 10;
                 }
             }
             $("#tag-list").append(
                 "<ul id='newList'></ul>"
             );
-            for (i = 0; i < n; i++) {  // JD: 27
+            for (var i = 0; i < n; i++) {  // JD: 27
                 name = result.response[i].blog_name;
                 var link = "";
                 var photo = result.response[i].photos;
-                // JD: 28
                 if (photo !== undefined) { 
                     link = result.response[i].photos[0].original_size.url;
-                    stuff = makeImageTag (link, "image");
+                    var stuff = makeImageTag (link, "image");
                 } else { 
                     stuff = $("<p>This user does not have a photo associated with it.</p>");
                 }
-                // JD: 28
                 $("#newList")
                     .append("<li><label><input type='radio' name='tag-results' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
-                    name + " </label></li>")
+                        name + " </label></li>")
                     .append(stuff)
                     .append("<br> <br>"); 
             }
-            if ($("#tag-term").val() != "") {  // JD: 25
+            if ($("#tag-term").val() !== "") {  // JD: 25
                 $("#tag-field").hide();
             }
-        })
-    }
+        });
+    };
 
     var makeImageTag = function (source, a) { 
-        var img = $("<img/>").attr({ 
+        return $("<img/>").attr({ 
             src: source,
             alt: a,
             width: "256px",
             height: "256px"
-        })
-        return img; // JD: 29
-    }
+        });
+    };
 });
 
 // JD: 30
@@ -249,4 +244,4 @@ var taggedToSearchField = function (name) {
         .val(name)
         .text(name); 
     $(".blogger-avatar-name").text(name);
-}
+};
