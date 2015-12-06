@@ -16,119 +16,121 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="column-xs-12"><h3>Simple Tumblr</h3></div>
+                <div id="header" class="column-xs-12"><h3>Simple Tumblr</h3></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <p>
-                            See blog details:
-                        </p>
-                        <label for="search-term">Enter a blog name:</label>
-                        <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
-                    </div>
-                    <div class="form-group">
-                        <button class="search-button btn btn-primary">Display details</button>
-                    </div>
-                    <div class="form-group alert-danger">
-                        <p id="main-field" class="error" hidden>
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <strong>The search field is empty.</strong>
-                        </p>
-                    </div>
 
-                    Note: Clicking the display button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
-                
-                    <div>
-
-                        <br>
-                        <center><strong>OR</strong> <!-- JD: 2 -->
-                        <br>
-                        <br>
-                        
-                        <div> <!-- JD: 4 -->
-                            <button id="random-button" class="btn btn-primary">Display a random blog</button>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">See blog details</h3>
                         </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="search-term">Enter a blog name to see the details:</label>
+                                <input type="text" class="form-control" id="search-term" placeholder="What would you like to look for?">
+                            </div>
+                            <div class="form-group text-center">
+                                <button class="search-button btn btn-primary">Display details</button>
+                            </div>
+                            <div class="form-group alert-danger">
+                                <p id="main-field" hidden>
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <strong>The search field is empty.</strong>
+                                </p>
+                            </div>
 
-                        Warning: Clicking this button may or may not give any results since it is using a random string generator.
-                        </center>
-                        <br>
-                    </div>
-                       
-                    <br>
-                    <br>
-                    <div id="results" hidden>
-                        <label id="">The results will be shown below: </label>
-                    </div>
-                    <br>
-                    <br>
-                    <strong><p id="blog-title"></p></strong>
-                    <p id="blog-name"></p>
-                    <p id="blog-description"></p>
-                    <p id="likes-results"></p>
-                    <p id="posts-results"></p>
-                    <div id="posts" hidden>
-                        <center> <!-- JD: 2 -->
-                            <!-- JD: 5 -->
-                            <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
-                            <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger</span>'s avatar</button>
-                            <button id="posts-button" class="btn btn-primary">View top posts from <span class="blogger-avatar-name">this blogger</span>'s blog</button>
-                        </center>
-                        <strong>Note: Clicking the display buttons will clear the results below if the avatar image and/or posts are already displayed. </strong>
-                    </div>
-                    <br>
-                    <div id="avatar-header" hidden> <!-- JD: 6 -->
-                        <strong>Here is the avatar image:</strong>
-                        <center> <!-- JD: 2 -->
-                            <img id="avatar-image" src="" alt="" width="256px">
-                        </center>
-                    </div>
-                    <br>
-                    <div id="show-posts" hidden> <!-- JD: 6 -->
-                        <strong>Here are the blog posts:</strong>
-                        <center> <!-- JD: 2 -->
-                            <ul>
-                            </ul>
-                        </center>
-                    </div>
+                            <div class="form-group text-center">
+                                <p>
+                                    Note: Clicking the display button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
+                                </p>
+                                <p>
+                                    <strong>OR</strong>
+                                </p>
+                            </div>
+                            <div class="form-group text-center">
+                                <button id="random-button" class="btn btn-primary">Display a random blog</button>
+                            </div>
+
+                            Warning: Clicking this button may or may not give any results since it is using a random string generator.      
+
+                            <br>
+                            <br>
+                            <div id="results" hidden>
+                                <label id="">The results will be shown below: </label>
+                            </div>
+                            <strong><p id="blog-title"></p></strong>
+                            <p id="blog-name"></p>
+                            <p id="blog-description"></p>
+                            <p id="likes-results"></p>
+                            <p id="posts-results"></p>
+                            <div id="posts" class="text-center" hidden>
+                                    <!-- JD: 5 -->
+                                <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
+                                <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger</span>'s avatar</button>
+                                <button id="posts-button" class="btn btn-primary">View top posts from <span class="blogger-avatar-name">this blogger</span>'s blog</button>
+                                
+                                <strong>Note: Clicking the display buttons will clear the results below if the avatar image and/or posts are already displayed. </strong>
+                            </div>
+                            <br>
+                            <div id="avatar-header text-center" hidden> <!-- JD: 6 -->
+                                <strong>Here is the avatar image:</strong>
+                                 <!-- JD: 2 -->
+                                    <img id="avatar-image" src="" alt="" width="256px">
+                                
+                            </div>
+                            <br>
+                            <div id="show-posts text-center" hidden> <!-- JD: 6 -->
+                                <strong>Here are the blog posts:</strong>
+                                 <!-- JD: 2 -->
+                                    <ul>
+                                    </ul>
+                                
+                            </div>
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-primary-->
                 </div>
 
                 <div class="col-md-6">
-                    <p>
-                        Search ALL posts by tags:
-                    </p>
-                    <div class="form-group">
-                        <label for="search-term">Enter a tag to search for:</label>
-                        <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
-                    </div>
-                    <div class="form-group alert-danger">
-                        <p id="tag-field" class="error" hidden>
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <strong>The search field is empty. Cannot display results while the field is empty.</strong>
-                        </p>
-                    </div>
-                    <div id="tag-radio-buttons" hidden> <!-- JD: 3 -->
-                        <p>
-                            How many results would you like to see?
-                        </p>
-
-                        <div class="radio"> <!-- JD: 20 -->
-                            <label><input type="radio" name="tag-results" id="tag-radio-ten" checked>10</label>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Search ALL posts by tags</h3>
                         </div>
-                        <div class="radio">
-                            <label><input type="radio" name="tag-results" id="tag-radio-fifteen">15</label>
-                        </div>
-                        <div class="radio">
-                            <label><input type="radio" name="tag-results" id="tag-radio-twenty">20</label>
-                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="search-term">Enter a tag to search for:</label>
+                                <input type="text" class="form-control" id="tag-term" placeholder="What tags would you want to look for?">
+                            </div>
+                            <div class="form-group alert-danger">
+                                <p id="tag-field" hidden>
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <strong>The search field is empty. Cannot display results while the field is empty.</strong>
+                                </p>
+                            </div>
+                            <div id="tag-radio-buttons" class="form-group" hidden> <!-- JD: 3 -->
+                                <p>
+                                    How many results would you like to see?
+                                </p>
 
-                            <!-- JD: 3 -->
-                        <button id="tag-button" class="btn btn-primary">List the results</button>
+                                <div class="radio">
+                                    <label><input type="radio" name="tag-results" id="tag-radio-ten" checked>10</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="tag-results" id="tag-radio-fifteen">15</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" name="tag-results" id="tag-radio-twenty">20</label>
+                                </div>
 
-                        <p id="radio-prompt" hidden> <!-- JD: 3 -->
-                            Try clicking on one of the radio buttons! The name will appear in the search box to the left for easy access.
-                        </p>
-                    </div>
+                                    <!-- JD: 3 -->
+                                <button id="tag-button" class="btn btn-primary form-group">List the results</button>
+
+                                <p id="radio-prompt" class="form-group" hidden> <!-- JD: 3 -->
+                                    Try clicking on one of the radio buttons! The name will appear in the search box to the left for easy access.
+                                </p>
+                            </div>
+                        </div> <!-- panel-body -->
+                    </div> <!-- panel panel-primary -->
 
                     <br>
 

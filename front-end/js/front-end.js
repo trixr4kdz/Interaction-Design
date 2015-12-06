@@ -18,17 +18,19 @@ $(function () {
         }
     });
 
-    $("#tag-term").keypress (function (e) { 
+    $("#tag-term").keypress(function (e) { 
         if (e.which === 13) { 
             tagSearch();
         }
     });
 
-    $("#tag-term").click (function () { 
+    $("#tag-term").click(function () { 
         $("#tag-radio-buttons").show();
     });
 
-    $("#tag-button").click(tagSearch);
+    $("#tag-button").click(function () { // JD: 13 
+        tagSearch();                     // For some reason, your suggestion doesn't seem to work; I tried both 
+    });                                  // $("#tag-button").click(tagSearch) and with tagSearch() but still nothing
 
     $("#posts-button").click(function () { 
         $("#show-posts ul").empty();
@@ -163,7 +165,7 @@ $(function () {
             url: "http://localhost:3000/v2/blog/" + $("#search-term").val() + ".tumblr.com" + "/info", 
             error: (function (jqXHR, textStatus, errorThrown) { 
                 removeResults();
-                if ($("#search-term").val() === "") { 
+                if (!$("#search-term").val().match(/\S/)) { 
                     $("#main-field").show();
                 } else { 
                     $("#main-field").hide();
@@ -185,16 +187,18 @@ $(function () {
                 api_key: api_key,
             },
             error: (function (jqXHR, textStatus, errorThrown) { 
-                if ($("#tag-term").val() === "") {  // JD: 25
+                if (!$("#tag-term").val().match(/\S/)) {
                     $("#tag-field").show();
                     $("#newList").remove();
+                } else {
+                    $("#tag-field").hide();
                 }
             })
         }).done(function (result) { 
             $("#radio-prompt").show();
             var n = result.response.length;
             $("#newList").remove();
-            if (n >= 20) {
+            if (n >= 20) { 
                 if ($("#tag-radio-fifteen").prop("checked")) { 
                     n = 15;
                 } else if ($("#tag-radio-twenty").prop("checked")) { 
@@ -218,13 +222,14 @@ $(function () {
                 }
                 $("#newList")
                     .append("<li><label><input type='radio' name='tag-results' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
-                        name + " </label></li>")
+                        name + " </label></li>") // JD: 28
                     .append(stuff)
                     .append("<br> <br>"); 
             }
-            if ($("#tag-term").val() !== "") {  // JD: 25
-                $("#tag-field").hide();
-            }
+            // Check if text field is empty
+            // if ($("#tag-term").val() !== "") {  // JD: 25
+            //     $("#tag-field").hide();
+            // }
         });
     };
 

@@ -5,15 +5,3 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
-
-.col-md-6 { /* JD: 8 */
-    border-style: solid;
-    border-width: 2px;
-    border-color: lightblue;
-}
-
-.search-button.btn.btn-primary {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;  
-}
