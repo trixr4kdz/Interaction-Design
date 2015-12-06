@@ -226,10 +226,6 @@ $(function () {
                     .append(stuff)
                     .append("<br> <br>"); 
             }
-            // Check if text field is empty
-            // if ($("#tag-term").val() !== "") {  // JD: 25
-            //     $("#tag-field").hide();
-            // }
         });
     };
 

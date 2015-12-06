@@ -7,16 +7,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="./css/front-end.css">
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
     </head>
 
     <body>
         <div class="container">
             <div class="row">
-                <div id="header" class="column-xs-12"><h3>Simple Tumblr</h3></div>
+                <div id="header" class="column-xs-12 text-center"><h1>Simple Tumblr</h1></div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -45,26 +43,27 @@
                                     Note: Clicking the display button will show the name, description, number of likes, and number of posts of the blog. Some blogs may be missing some of these information.
                                 </p>
                                 <p>
-                                    <strong>OR</strong>
+                                    <h3>OR</h3>
                                 </p>
                             </div>
                             <div class="form-group text-center">
                                 <button id="random-button" class="btn btn-primary">Display a random blog</button>
                             </div>
-
-                            Warning: Clicking this button may or may not give any results since it is using a random string generator.      
-
-                            <br>
-                            <br>
-                            <div id="results" hidden>
-                                <label id="">The results will be shown below: </label>
+                            <p class="form-group text-center">
+                                Warning: Clicking this button may or may not give any results since it is using a random string generator.      
+                            </p>
+                            
+                            <div class="form-group text-center">
+                                <div id="results" hidden>
+                                    <label id="">The results will be shown below: </label>
+                                </div>
+                                <strong><p id="blog-title"></p></strong>
+                                <p id="blog-name"></p>
+                                <p id="blog-description"></p>
+                                <p id="likes-results"></p>
+                                <p id="posts-results"></p>
                             </div>
-                            <strong><p id="blog-title"></p></strong>
-                            <p id="blog-name"></p>
-                            <p id="blog-description"></p>
-                            <p id="likes-results"></p>
-                            <p id="posts-results"></p>
-                            <div id="posts" class="text-center" hidden>
+                            <div id="posts" class="form-group text-center" hidden>
                                     <!-- JD: 5 -->
                                 <button class="search-button btn btn-primary">Display details for <span class="blogger-avatar-name"></span></button>
                                 <button id="avatar-button" class="btn btn-primary">View <span class="blogger-avatar-name">this blogger</span>'s avatar</button>
@@ -73,7 +72,7 @@
                                 <strong>Note: Clicking the display buttons will clear the results below if the avatar image and/or posts are already displayed. </strong>
                             </div>
                             <br>
-                            <div id="avatar-header text-center" hidden> <!-- JD: 6 -->
+                            <div id="avatar-header" class="text-center" hidden> <!-- JD: 6 -->
                                 <strong>Here is the avatar image:</strong>
                                  <!-- JD: 2 -->
                                     <img id="avatar-image" src="" alt="" width="256px">
