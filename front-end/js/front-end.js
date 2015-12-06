@@ -216,10 +216,11 @@ $(function () {
                 // JD: 18, 28
                 (photo !== undefined) ? ((link = result.response[i].photos[0].original_size.url) && (stuff = makeImageTag (link, "image"))) : stuff = $("<p>This user does not have a photo associated with it.</p>")
                 // JD: 28
-                $("#newList").append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
-                    name + " </label></li>");
-                $("#newList").append(stuff);
-                $("#newList").append("<br> <br>") // JD: 16, 21
+                $("#newList")
+                    .append("<li><label><input type='radio' name='optradio' id='blog-name-" + i + "' value='" + name +  "' onclick='taggedToSearchField(value)'> " +
+                    name + " </label></li>")
+                    .append(stuff)
+                    .append("<br> <br>") // JD: 16, 21
             }
             if ($("#tag-term").val() != "") { // JD: 25
                 $("#tag-field").hide();
