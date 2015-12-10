@@ -2,10 +2,10 @@
 
 #drawing-area { 
     background-color: lightblue;
-    position: relative;
+    position: fixed;
     user-select: none;
-    width: 512px;
-    height: 512px;
+    width: 95%;
+    height: 95%;
     border: 2px solid black;
 }
 

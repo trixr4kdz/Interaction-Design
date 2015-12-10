@@ -28,8 +28,8 @@
                 element.addEventListener("touchstart", startMove, false);
                 element.addEventListener("touchend", unhighlight, false);
 
-                element.velocity = {x:0, y:0.05};
-                element.acceleration = {x:0, y: 0};
+                element.velocity = {x: 0, y: 0};
+                element.acceleration = {x: 0, y: 0};
             });
     };
 
@@ -123,21 +123,24 @@
         $(this).removeClass("box-highlight");
     };
 
+    var changeBoxDimensionOnOrientationChange = function () {
+        window.addEventListener ("orientationchange", function (event) { 
+            $("#drawing-area")
+                .width($(window).width() * 0.95)
+                .height($(window).height() * 0.95);
+        });
+    }
+
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
         window.requestAnimationFrame (updateBoxPositions);
-        window.addEventListener ('devicemotion', function (event) {
+        window.addEventListener ("devicemotion", function (event) {
             $("div.box").each(function (index, element) {
                 element.acceleration.x = event.accelerationIncludingGravity.x / 10000;
                 element.acceleration.y = -event.accelerationIncludingGravity.y / 10000;
             })
         });
+        changeBoxDimensionOnOrientationChange();
     };
 
-    // $(window).on("orientationchange", function (event) { 
-    //     $("$console").text("This device is in " + event.orientation + " mode!");
-    // });
-
-    // $(window).orientationchange();
-
-}(jQuery));
+} (jQuery));
