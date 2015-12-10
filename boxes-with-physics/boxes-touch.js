@@ -3,6 +3,12 @@
     var FRAME_RATE = 10;
     var MS_BETWEEN_FRAMES = 1000 / FRAME_RATE;
 
+    var OUTER_BOX_HEIGHT = $("#drawing-area").height();
+    var OUTER_BOX_WIDTH = $("#drawing-area").width();
+    var OUTER_BOX_TOP = $("#drawing-area").offset().top;
+    var OUTER_BOX_LEFT = $("#drawing-area").offset().left;
+    // var OUTER_BOX_RIGHT = 
+
     /**
      * Sets up the given jQuery collection as the drawing area(s).
      */
