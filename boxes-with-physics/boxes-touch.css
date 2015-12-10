@@ -1,19 +1,12 @@
 /* Drawing area properties. */
-html, body {
-	background-color: lightblue;
-	/*width: 100%;
-    height: 100%;*/
-	padding: 0px;
-	margin: 0px;
-}
 
 #drawing-area {
+    background-color: lightblue;
     position: relative;
     user-select: none;
-    width: 100%;
-    height: 100%;
-    padding: 0px;
-    margin: 0px;
+    width: 512px;
+    height: 512px;
+    border: 2px solid black;
 }
 
 /* Box properties and their variants. */

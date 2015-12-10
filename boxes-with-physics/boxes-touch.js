@@ -1,5 +1,31 @@
 (function ($) {
     /**
+     * Sets up the given jQuery collection as the drawing area(s).
+     */
+    var setDrawingArea = function (jQueryElements) {
+        // Set up any pre-existing box elements for touch behavior.
+        jQueryElements
+            .addClass("drawing-area")
+            
+            // Event handler setup must be low-level because jQuery
+            // doesn't relay touch-specific event properties.
+            .each(function (index, element) {
+                element.addEventListener("touchmove", trackDrag, false);
+                element.addEventListener("touchend", endDrag, false);
+            })
+
+            .find("div.box").each(function (index, element) {
+                element.addEventListener("touchstart", startMove, false);
+                element.addEventListener("touchend", unhighlight, false);
+
+                element.velocity = {x:0, y:0.05};
+                element.acceleration = {x:0, y: 0};
+            });
+    };
+
+
+
+    /**
      * Tracks a box as it is rubberbanded or moved across the drawing area.
      */
     var trackDrag = function (event) {
@@ -11,6 +37,16 @@
                     left: touch.pageX - touch.target.deltaX,
                     top: touch.pageY - touch.target.deltaY
                 });
+
+                // touch.target.velocityX = touch.pageX - touch.target.lastX;
+                // touch.target.velocityY = touch.pageY - touch.target.lastY;
+                
+                // touch.target.lastX = touch.pageX;
+                // touch.target.lastY = touch.pageY;
+                
+                // console.log("velocityX " + touch.target.velocityX);
+                // console.log("velocityY " + touch.target.velocityY);
+                // console.log(touch.pageX - touch.target.deltaX);
             }
         });
 
@@ -62,28 +98,43 @@
         event.stopPropagation();
     };
 
-    /**
-     * Sets up the given jQuery collection as the drawing area(s).
-     */
-    var setDrawingArea = function (jQueryElements) {
-        // Set up any pre-existing box elements for touch behavior.
-        jQueryElements
-            .addClass("drawing-area")
-            
-            // Event handler setup must be low-level because jQuery
-            // doesn't relay touch-specific event properties.
-            .each(function (index, element) {
-                element.addEventListener("touchmove", trackDrag, false);
-                element.addEventListener("touchend", endDrag, false);
-            })
+    var lastTimestamp = 0;
+    var FRAME_RATE = 10;
+    var MS_BETWEEN_FRAMES = 1000 / FRAME_RATE;
 
-            .find("div.box").each(function (index, element) {
-                element.addEventListener("touchstart", startMove, false);
-                element.addEventListener("touchend", unhighlight, false);
+    var updateBoxPositions = function (timestamp) {
+        var timePassed = timestamp - lastTimestamp;
+        if (timePassed > MS_BETWEEN_FRAMES) {
+    //         $("console").text(timestamp);
+            $("div.box").each (function (index, element) {
+                var offset = $(element).offset();
+                offset.left += element.velocity.x * timePassed; //Velocity per unit of time. Should be multiplied by the amount of time
+                offset.top += element.velocity.y * timePassed;  //NVM already did
+                
+                element.velocity.x += element.acceleration.x * timePassed;
+                element.velocity.y += element.acceleration.y * timePassed;
+                $(element).offset (offset);
             });
-    };
+            lastTimestamp = timestamp;
+        }
+        window.requestAnimationFrame (updateBoxPositions);
+    }
 
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
+        window.requestAnimationFrame (updateBoxPositions);
+        window.addEventListener ('devicemotion', function (event) {
+            $("div.box").each(function (index, element) {
+                element.acceleration.x = event.accelerationIncludingGravity.x / 10000;
+                element.acceleration.y = -event.accelerationIncludingGravity.y / 10000;
+            })
+        });
     };
+
+    // $(window).on("orientationchange", function (event) { 
+    //     $("$console").text("This device is in " + event.orientation + " mode!");
+    // });
+
+    // $(window).orientationchange();
+
 }(jQuery));
