@@ -1,4 +1,8 @@
 (function ($) {
+    var lastTimestamp = 0;
+    var FRAME_RATE = 10;
+    var MS_BETWEEN_FRAMES = 1000 / FRAME_RATE;
+
     /**
      * Sets up the given jQuery collection as the drawing area(s).
      */
@@ -23,7 +27,46 @@
             });
     };
 
+    var updateBoxPositions = function (timestamp) {
+        var timePassed = timestamp - lastTimestamp;
+        if (timePassed > MS_BETWEEN_FRAMES) {
+            $("div.box").each (function (index, element) {
+                var offset = $(element).offset();
+                offset.left += element.velocity.x * timePassed; //Velocity per unit of time. Should be multiplied by the amount of time
+                offset.top += element.velocity.y * timePassed;  //NVM already did
+                
+                element.velocity.x += element.acceleration.x * timePassed;
+                element.velocity.y += element.acceleration.y * timePassed;
+                $(element).offset (offset);
+            });
+            lastTimestamp = timestamp;
+        }
+        window.requestAnimationFrame (updateBoxPositions);
+    }
 
+    /**
+     * Begins a box move sequence.
+     */
+    var startMove = function (event) {
+        $.each(event.changedTouches, function (index, touch) {
+            // Highlight the element.
+            $(touch.target).addClass("box-highlight");
+
+            // Take note of the box's current (global) location.
+            var jThis = $(touch.target),
+                startOffset = jThis.offset();
+
+            // Set the drawing area's state to indicate that it is
+            // in the middle of a move.
+            touch.target.movingBox = jThis;
+            touch.target.deltaX = touch.pageX - startOffset.left;
+            touch.target.deltaY = touch.pageY - startOffset.top;
+        });
+
+        // Eat up the event so that the drawing area does not
+        // deal with it.
+        event.stopPropagation();
+    };
 
     /**
      * Tracks a box as it is rubberbanded or moved across the drawing area.
@@ -73,52 +116,6 @@
     var unhighlight = function () {
         $(this).removeClass("box-highlight");
     };
-
-    /**
-     * Begins a box move sequence.
-     */
-    var startMove = function (event) {
-        $.each(event.changedTouches, function (index, touch) {
-            // Highlight the element.
-            $(touch.target).addClass("box-highlight");
-
-            // Take note of the box's current (global) location.
-            var jThis = $(touch.target),
-                startOffset = jThis.offset();
-
-            // Set the drawing area's state to indicate that it is
-            // in the middle of a move.
-            touch.target.movingBox = jThis;
-            touch.target.deltaX = touch.pageX - startOffset.left;
-            touch.target.deltaY = touch.pageY - startOffset.top;
-        });
-
-        // Eat up the event so that the drawing area does not
-        // deal with it.
-        event.stopPropagation();
-    };
-
-    var lastTimestamp = 0;
-    var FRAME_RATE = 10;
-    var MS_BETWEEN_FRAMES = 1000 / FRAME_RATE;
-
-    var updateBoxPositions = function (timestamp) {
-        var timePassed = timestamp - lastTimestamp;
-        if (timePassed > MS_BETWEEN_FRAMES) {
-    //         $("console").text(timestamp);
-            $("div.box").each (function (index, element) {
-                var offset = $(element).offset();
-                offset.left += element.velocity.x * timePassed; //Velocity per unit of time. Should be multiplied by the amount of time
-                offset.top += element.velocity.y * timePassed;  //NVM already did
-                
-                element.velocity.x += element.acceleration.x * timePassed;
-                element.velocity.y += element.acceleration.y * timePassed;
-                $(element).offset (offset);
-            });
-            lastTimestamp = timestamp;
-        }
-        window.requestAnimationFrame (updateBoxPositions);
-    }
 
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
