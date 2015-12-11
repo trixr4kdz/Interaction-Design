@@ -16,7 +16,7 @@
 }
 
 .box-highlight { 
-    box-shadow: 0px 0px 6px #88F;
+    box-shadow: 0px 0px 10px red;
 }
 
 #boxA { 
@@ -29,7 +29,7 @@
 #boxB { 
     width: 80px; 
     height: 50px; 
-    left: 384px; 
+    left: 128px; 
     top: 256px;
 }
 
