@@ -2,4 +2,4 @@
 	$.fn.dimmer = function () {
 		
 	}
-})
+}) (jQuery);
