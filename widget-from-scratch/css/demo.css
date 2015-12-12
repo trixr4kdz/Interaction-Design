@@ -2,6 +2,15 @@ body {
     background: url(/images/background.jpg) no-repeat center center fixed;  
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;
+    -o-background-size: cover;slider
     background-size: cover;
+}
+
+#slider-container {
+	position: fixed;
+	background-color: white;
+	width: 16px;
+	height: 512px;
+	border: 2px solid black;
+	right: 25px;
 }
