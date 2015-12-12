@@ -157,6 +157,11 @@
             if (element.movingBox) {
                 // Change state to "not-moving-anything" by clearing out
                 // element.movingBox.
+                
+                if (element.movingBox.lastLastX === undefined){
+                    element.movingBox.lastLastX = touch.pageX;
+                    element.movingBox.lastLastY = touch.pageY;
+                }
                 element.velocity.x = (touch.pageX - element.movingBox.lastLastX) / FLICK_CONSTANT;
                 element.velocity.y = (touch.pageY - element.movingBox.lastLastY) / FLICK_CONSTANT;
                 element.movingBox = null;
