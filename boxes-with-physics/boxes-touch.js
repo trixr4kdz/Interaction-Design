@@ -49,11 +49,11 @@
                 if (!element.movingBox) {
                     element.velocity.x += element.acceleration.x * timePassed;
                     element.velocity.y += element.acceleration.y * timePassed;
-                    $(element).offset (offset);
+                    
 
                     if (boxBottom > OUTER_BOX_BOTTOM || offset.top < OUTER_BOX_TOP) {
                         element.velocity.y *= -0.5;
-                        offset.top = OUTER_BOX_TOP;
+                        
 
                         if (Math.abs(element.velocity.y) < 0.1) {
                             element.velocity.y = 0;
@@ -61,43 +61,38 @@
                     }
 
                     if (boxRight > OUTER_BOX_RIGHT || offset.left < OUTER_BOX_LEFT) {
-                        offset.left = OUTER_BOX_LEFT;
                         element.velocity.x *= -0.5;
-                        
 
                         if (Math.abs(element.velocity.x) < 0.1) {
                             element.velocity.x = 0;
                         }
-                        //console.log("left/right " + offset.left);
                     }
+                    offset = snapBox (offset, element);
+                    $(element).offset (offset);
                 }
-
-                // if (offset.left < OUTER_BOX_LEFT) {
-                //     offset.left = OUTER_BOX_LEFT;
-                //     console.log("left");
-                // }
-
-                // if (offset.top < OUTER_BOX_TOP) {
-                //     offset.top = OUTER_BOX_TOP;
-                //     console.log("top");
-                // }
-
-                // if (boxRight > OUTER_BOX_RIGHT) {
-                //     $(touch.target).offset().left = OUTER_BOX_RIGHT;
-                //     console.log("right");
-                // }
-
-                // if (boxBottom > OUTER_BOX_LEFT) {
-                //     $(touch.target).offset().left = OUTER_BOX_RIGHT;
-                //     console.log("bottom");
-                // }
-
-
-                
             });
             lastTimestamp = timestamp;
         }
         window.requestAnimationFrame (updateBoxPositions);
+    }
+
+    var snapBox = function (offset, element) {
+        var boxRight = offset.left + $(element).width();
+        var boxBottom = offset.top + $(element).height();
+        offset.top = offset.top < OUTER_BOX_TOP 
+                       ? OUTER_BOX_TOP 
+                       : offset.top;
+        offset.top = boxBottom > OUTER_BOX_BOTTOM 
+                       ? OUTER_BOX_BOTTOM - $(element).height()
+                       : offset.top;
+
+        offset.left = offset.left < OUTER_BOX_LEFT 
+                        ? OUTER_BOX_LEFT 
+                        : offset.left;
+        offset.left = boxRight > OUTER_BOX_RIGHT 
+                        ? OUTER_BOX_RIGHT - $(element).width() 
+                        : offset.left
+        return offset;
     }
 
     /**
@@ -133,22 +128,11 @@
             // Don't bother if we aren't tracking anything.
             if (touch.target.movingBox) {
                 // Reposition the object.
-                touch.target.movingBox.offset({
-                    left: touch.pageX - touch.target.deltaX,
-                    top: touch.pageY - touch.target.deltaY
-                });
+                var newLeft = touch.pageX - touch.target.deltaX;
+                var newTop = touch.pageY - touch.target.deltaY;
 
-                if ($(touch.target).offset().left < OUTER_BOX_LEFT) {
-                    touch.target.movingBox.offset.left = OUTER_BOX_LEFT;
-                    console.log("WAT");
-                }
-
-
-                // if target.offset() is not in outer box, 
-                // then stop the box from being dragged
-                // that is, keep the target.offset() be the same as the OUTER_BOX_side
-                // console.log("MOVING " + $(touch.target).offset().left);
-
+                var offset = snapBox ({left: newLeft, top: newTop}, touch.target);
+                touch.target.movingBox.offset(offset);
             }
         });
 
