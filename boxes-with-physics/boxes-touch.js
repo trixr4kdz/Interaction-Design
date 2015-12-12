@@ -9,6 +9,7 @@
     var OUTER_BOX_LEFT = $("#drawing-area").offset().left;
     var OUTER_BOX_RIGHT = OUTER_BOX_WIDTH + OUTER_BOX_LEFT;
     var OUTER_BOX_BOTTOM = OUTER_BOX_HEIGHT + OUTER_BOX_TOP;
+    var FLICK_CONSTANT = 30;
 
     /**
      * Sets up the given jQuery collection as the drawing area(s).
@@ -50,11 +51,9 @@
                     element.velocity.x += element.acceleration.x * timePassed;
                     element.velocity.y += element.acceleration.y * timePassed;
                     
-
                     if (boxBottom > OUTER_BOX_BOTTOM || offset.top < OUTER_BOX_TOP) {
                         element.velocity.y *= -0.5;
                         
-
                         if (Math.abs(element.velocity.y) < 0.1) {
                             element.velocity.y = 0;
                         }
@@ -126,13 +125,22 @@
     var trackDrag = function (event) {
         $.each(event.changedTouches, function (index, touch) {
             // Don't bother if we aren't tracking anything.
-            if (touch.target.movingBox) {
+            var element = touch.target;
+            if (element.movingBox) {
                 // Reposition the object.
-                var newLeft = touch.pageX - touch.target.deltaX;
-                var newTop = touch.pageY - touch.target.deltaY;
-
-                var offset = snapBox ({left: newLeft, top: newTop}, touch.target);
-                touch.target.movingBox.offset(offset);
+                var newLeft = touch.pageX - element.deltaX;
+                var newTop = touch.pageY - element.deltaY;
+                var offset = snapBox ({
+                        left: newLeft, 
+                        top: newTop
+                    }, 
+                    element
+                );
+                element.movingBox.offset(offset);
+                element.lastLastX = element.lastX;
+                element.lastLastY = element.lastY;
+                element.lastX = touch.pageX;
+                element.lastY = touch.pageY;
             }
         });
 
@@ -145,10 +153,14 @@
      */
     var endDrag = function (event) {
         $.each(event.changedTouches, function (index, touch) {
-            if (touch.target.movingBox) {
+            var element = touch.target;
+            if (element.movingBox) {
                 // Change state to "not-moving-anything" by clearing out
-                // touch.target.movingBox.
-                touch.target.movingBox = null;
+                // element.movingBox.
+                element.movingBox = null;
+
+                element.velocity.x = (touch.pageX - element.lastLastX) / FLICK_CONSTANT;
+                element.velocity.y = (touch.pageY - element.lastLastY) / FLICK_CONSTANT;
             }
         });
     };
