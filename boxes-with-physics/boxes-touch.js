@@ -1,16 +1,14 @@
 (function ($) {
     var lastTimestamp = 0;
-    var FRAME_RATE = 50;
+    var FRAME_RATE = 100;
     var MS_BETWEEN_FRAMES = 1000 / FRAME_RATE;
 
     var OUTER_BOX_HEIGHT = $("#drawing-area").height();
     var OUTER_BOX_WIDTH = $("#drawing-area").width();
     var OUTER_BOX_TOP = $("#drawing-area").offset().top;
     var OUTER_BOX_LEFT = $("#drawing-area").offset().left;
-    var OUTER_BOX_RIGHT = OUTER_BOX_WIDTH;
-    var OUTER_BOX_BOTTOM = OUTER_BOX_HEIGHT;
-
-    console.log(OUTER_BOX_HEIGHT);
+    var OUTER_BOX_RIGHT = OUTER_BOX_WIDTH + OUTER_BOX_LEFT;
+    var OUTER_BOX_BOTTOM = OUTER_BOX_HEIGHT + OUTER_BOX_TOP;
 
     /**
      * Sets up the given jQuery collection as the drawing area(s).
@@ -41,23 +39,61 @@
         if (timePassed > MS_BETWEEN_FRAMES) {
             $("div.box").each (function (index, element) {
                 var offset = $(element).offset();
-                offset.left += element.velocity.x * timePassed / 10; //Velocity per unit of time. Should be multiplied by the amount of time
-                offset.top += element.velocity.y * timePassed / 10;  //NVM already did
+                offset.left += element.velocity.x * timePassed;
+                offset.top += element.velocity.y * timePassed;
                 
-                element.velocity.x += element.acceleration.x * timePassed;
-                element.velocity.y += element.acceleration.y * timePassed;
-                $(element).offset (offset);
+                var boxLeft = offset.left;
+                var boxRight = offset.left + $(element).width();
+                var boxBottom = offset.top + $(element).height();
 
-                if (offset.top + $(element).height() > OUTER_BOX_BOTTOM || offset.top < OUTER_BOX_TOP) {
-                    element.velocity.y *= -0.5;
+                if (!element.movingBox) {
+                    element.velocity.x += element.acceleration.x * timePassed;
+                    element.velocity.y += element.acceleration.y * timePassed;
+                    $(element).offset (offset);
+
+                    if (boxBottom > OUTER_BOX_BOTTOM || offset.top < OUTER_BOX_TOP) {
+                        element.velocity.y *= -0.5;
+                        offset.top = OUTER_BOX_TOP;
+
+                        if (Math.abs(element.velocity.y) < 0.1) {
+                            element.velocity.y = 0;
+                        }
+                    }
+
+                    if (boxRight > OUTER_BOX_RIGHT || offset.left < OUTER_BOX_LEFT) {
+                        offset.left = OUTER_BOX_LEFT;
+                        element.velocity.x *= -0.5;
+                        
+
+                        if (Math.abs(element.velocity.x) < 0.1) {
+                            element.velocity.x = 0;
+                        }
+                        //console.log("left/right " + offset.left);
+                    }
                 }
 
-                if (offset.left + $(element).width() > OUTER_BOX_RIGHT || offset.left < OUTER_BOX_LEFT) {
-                    element.velocity.x *= -0.5;
-                }
+                // if (offset.left < OUTER_BOX_LEFT) {
+                //     offset.left = OUTER_BOX_LEFT;
+                //     console.log("left");
+                // }
 
-                // element.velocity.x *= 0.05; // for friction
-                // element.velocity.y *= 0.05;
+                // if (offset.top < OUTER_BOX_TOP) {
+                //     offset.top = OUTER_BOX_TOP;
+                //     console.log("top");
+                // }
+
+                // if (boxRight > OUTER_BOX_RIGHT) {
+                //     $(touch.target).offset().left = OUTER_BOX_RIGHT;
+                //     console.log("right");
+                // }
+
+                // if (boxBottom > OUTER_BOX_LEFT) {
+                //     $(touch.target).offset().left = OUTER_BOX_RIGHT;
+                //     console.log("bottom");
+                // }
+
+
+                
             });
             lastTimestamp = timestamp;
         }
@@ -79,6 +115,7 @@
             // Set the drawing area's state to indicate that it is
             // in the middle of a move.
             touch.target.movingBox = jThis;
+
             touch.target.deltaX = touch.pageX - startOffset.left;
             touch.target.deltaY = touch.pageY - startOffset.top;
         });
@@ -95,34 +132,23 @@
         $.each(event.changedTouches, function (index, touch) {
             // Don't bother if we aren't tracking anything.
             if (touch.target.movingBox) {
-
-                touch.target.startX = touch.pageX;
-                touch.target.startY = touch.pageY;
                 // Reposition the object.
                 touch.target.movingBox.offset({
                     left: touch.pageX - touch.target.deltaX,
                     top: touch.pageY - touch.target.deltaY
                 });
 
+                if ($(touch.target).offset().left < OUTER_BOX_LEFT) {
+                    touch.target.movingBox.offset.left = OUTER_BOX_LEFT;
+                    console.log("WAT");
+                }
+
+
                 // if target.offset() is not in outer box, 
                 // then stop the box from being dragged
                 // that is, keep the target.offset() be the same as the OUTER_BOX_side
+                // console.log("MOVING " + $(touch.target).offset().left);
 
-
-
-                // touch.target.velocityX = touch.pageX - touch.target.lastX;
-                // touch.target.velocityY = touch.pageY - touch.target.lastY;
-                
-                // touch.target.endX = touch.pageX;
-                // touch.target.endY = touch.pageY;
-
-                // end of the touch - start of the touch = target.velocity
-                // touch.target.velocity.x = touch.target.endX - touch.target.startX / 10;
-                // touch.target.velocity.y = touch.target.endX - touch.target.startX / 10;
-                
-                // console.log("velocityX " + touch.target.velocityX);
-                // console.log("velocityY " + touch.target.velocityY);
-                // console.log(touch.pageX - touch.target.deltaX);
             }
         });
 
@@ -161,7 +187,16 @@
             //     .height($(window).height() * 0.95);
             //     console.log($("#drawing-area").top);
         });
-    }
+    };
+
+    var createRandomBoxes = function () {
+        var width = Math.floor(Math.random() * 256);
+        var height = Math.floor(Math.random() * 256);
+        box.css("width", width + "px");
+        box.css("height", height + "px");
+        box.css("left", Math.floor(Math.random() * OUTER_BOX_WIDTH + "px"));
+        box.css("right", Math.floor(Math.random() * OUTER_BOX_HEIGHT + "px"));
+    };
 
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
