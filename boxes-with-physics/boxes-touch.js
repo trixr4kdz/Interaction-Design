@@ -137,10 +137,10 @@
                     element
                 );
                 element.movingBox.offset(offset);
-                element.lastLastX = element.lastX;
-                element.lastLastY = element.lastY;
-                element.lastX = touch.pageX;
-                element.lastY = touch.pageY;
+                element.movingBox.lastLastX = element.movingBox.lastX;
+                element.movingBox.lastLastY = element.movingBox.lastY;
+                element.movingBox.lastX = touch.pageX;
+                element.movingBox.lastY = touch.pageY;
             }
         });
 
@@ -157,10 +157,9 @@
             if (element.movingBox) {
                 // Change state to "not-moving-anything" by clearing out
                 // element.movingBox.
+                element.velocity.x = (touch.pageX - element.movingBox.lastLastX) / FLICK_CONSTANT;
+                element.velocity.y = (touch.pageY - element.movingBox.lastLastY) / FLICK_CONSTANT;
                 element.movingBox = null;
-
-                element.velocity.x = (touch.pageX - element.lastLastX) / FLICK_CONSTANT;
-                element.velocity.y = (touch.pageY - element.lastLastY) / FLICK_CONSTANT;
             }
         });
     };
