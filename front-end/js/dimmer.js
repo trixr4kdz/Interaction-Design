@@ -1,3 +1,3 @@
 $(function () {
-    $(".slider-container").dimmer();
+    $(".slider-container").dimmer({mainColor: "#005BA6", width: "32px"});
 });
