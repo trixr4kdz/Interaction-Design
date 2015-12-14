@@ -176,28 +176,6 @@
         $(this).removeClass("box-highlight");
     };
 
-    var changeBoxDimensionOnOrientationChange = function () {
-        window.addEventListener ("orientationchange", function (event) { 
-            if (window.orientation === 90) {
-                console.log("90");
-            }
-            // window.orientation.set("portrait");
-            // $("#drawing-area")
-            //     .width($(window).width() * 0.95)
-            //     .height($(window).height() * 0.95);
-            //     console.log($("#drawing-area").top);
-        });
-    };
-
-    var createRandomBoxes = function () {
-        var width = Math.floor(Math.random() * 256);
-        var height = Math.floor(Math.random() * 256);
-        box.css("width", width + "px");
-        box.css("height", height + "px");
-        box.css("left", Math.floor(Math.random() * OUTER_BOX_WIDTH + "px"));
-        box.css("right", Math.floor(Math.random() * OUTER_BOX_HEIGHT + "px"));
-    };
-
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
         window.requestAnimationFrame (updateBoxPositions);
