@@ -5,21 +5,35 @@
 
         // }
         // $.extend(options, defaultProperties);
-        var clicking = false;
         setSliderArea(this);
+
+        var clicking = false;
         this
             .find("div.slider")
             .each(function () {
                 $(this)
-                    .mousedown(startDrag)
                     .mouseover(mouseIsOver)
-                    .mouseup(endDrag)
-                // if (clicking) {
-                //     $(this).mousemove(trackDrag);
-                // }
+                    .mousedown(startDrag);
+                $(document).mouseup(endDrag);
             })
-        console.log("MAIN " + ($(".slider-main").offset().top + $(".slider-main").height()));
-        console.log("SLIDER " + $(".slider").offset().top + $(".slider").height());
+        $("div.slider-main").click(clickedSliderMain);
+        adjustBrightness();
+    }
+
+    var adjustBrightness = function () {
+        var sliderCenter = $(".slider-main").height() * 0.5;
+        console.log(sliderCenter);
+    }
+
+    var clickedSliderMain = function (event) {
+        var newTop = event.pageY - $(".slider").height() / 2;
+        var offset = clampSlider ({
+                top: newTop
+                }, 
+                $(".slider")
+            )
+            $(".slider")
+                .offset(offset)
     }
 
     var setSliderArea = function (jQueryElements) {
@@ -50,53 +64,38 @@
         var jThis = $(this),
             startOffset = jThis.offset();
         this.deltaY = event.pageY - startOffset.top;
-        if (clicking) {
-            $(this).mousemove(trackDrag);
-        }
-        console.log(this.deltaY);
+        $(this).mousemove(trackDrag);
+        event.stopPropagation();
     }
 
     var trackDrag = function (event) {
-        var newTop = event.pageY - this.deltaY;
-        $(this).css("background", "gray");
-        var offset = clampSlider ({
-            top: newTop
-            }, 
-            this
-        )
-        console.log("offset " + offset.top)
-        console.log("event.pageY " + event.pageY);
-        // console.log("offset " + $(this).offset().top)
-
-        $(this).offset(offset);
-        console.log($(this).offset().top);
+        if (clicking) {
+            var newTop = event.pageY - this.deltaY;
+            $(this).css("background", "gray");
+            var offset = clampSlider ({
+                top: newTop
+                }, 
+                this
+            )
+            $(this)
+                .offset(offset)
+                .mouseup(endDrag);
+        }
+        event.preventDefault();
     }
 
     var endDrag = function (event) {
         clicking = false;
-        console.log("endDrag")
-        var lastY = event.pageY;
-        // $(this).offset({
-        //     top: lastY
-        // })
-        // .mouseup(slideCleanUp)
+        $(".slider")
+            .unbind("mousemove", startDrag)
+            .css("background", "white");
     }
 
-    // var slideCleanUp = function (event) {
-    //      $(this)
-    //         .offset({
-    //             top: event.clientY
-    //         })
-    //         .unbind("mousemove", startDrag)
-    //         .css("background", "white");
-    // }
-
     var clampSlider = function (offset, element) {
-        var containerTop = $(".slider-main").offset().top;
-        var containerBottom = containerTop + $(".slider-main").height();
         var sliderTop = offset.top;
         var sliderBottom = sliderTop + $(element).height();
-
+        var containerTop = $(".slider-main").offset().top;
+        var containerBottom = containerTop + $(".slider-main").height();
         if (sliderTop < containerTop) {
             offset.top = containerTop;
         } else if (sliderBottom > containerBottom) {
