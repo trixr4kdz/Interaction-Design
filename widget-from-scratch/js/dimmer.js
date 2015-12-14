@@ -27,15 +27,16 @@
             $(".overlay")
                 .css("background", "#000")
                 .css("opacity", opacity);
-            console.log("BRIGHT");
         } else {
             $(".overlay")
                 .css("background", "#FFF")
                 .css("opacity", opacity);
-
-            console.log("DARK")
         }
-        console.log(opacity);
+    }
+
+    var adjustSliderColoring = function () {
+        var sliderPosition = $(".slider").offset().top;
+        $(".color-container").css("height", sliderPosition);
     }
 
     var clickedSliderMain = function (event) {
@@ -48,6 +49,7 @@
             $(".slider")
                 .offset(offset)
         adjustBrightness();
+        adjustSliderColoring();
     }
 
     var setSliderArea = function (jQueryElements) {
@@ -98,6 +100,7 @@
                 .offset(offset)
                 .mouseup(endDrag);
             adjustBrightness();
+            adjustSliderColoring();
         }
         event.preventDefault();
     }
