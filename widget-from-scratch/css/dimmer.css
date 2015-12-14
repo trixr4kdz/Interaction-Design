@@ -1,7 +1,6 @@
 .slider-main {
     position: fixed;
-    /*position: relative;*/
-    background-color: white;
+    background-color: lightblue;
     width: 16px;
     height: 90%;
     border: 2px solid black;
@@ -24,8 +23,7 @@
 }
 
 .overlay {
-    opacity: 0.5;
-    filter: alpha(opacity=20);
+    opacity: 0.0;
     background-color: #000;
     width: 100%;
     height: 100%;
@@ -33,6 +31,13 @@
     top: 0px;
     left: 0px;
     position: fixed;
+}
+
+.color-container {
+    position: relative;
+    height: 55%;
+    background-color: white;
+    border-radius: 25px;
 }
 
 /* Will need to not repeat except for background color

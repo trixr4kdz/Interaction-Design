@@ -17,12 +17,25 @@
                 $(document).mouseup(endDrag);
             })
         $("div.slider-main").click(clickedSliderMain);
-        adjustBrightness();
     }
 
     var adjustBrightness = function () {
         var sliderCenter = $(".slider-main").height() * 0.5;
-        console.log(sliderCenter);
+        var sliderPosition = $(".slider").offset().top;
+        var opacity = Math.log(Math.abs(sliderCenter - sliderPosition)) * 0.15;
+        if (sliderPosition > sliderCenter) {
+            $(".overlay")
+                .css("background", "#000")
+                .css("opacity", opacity);
+            console.log("BRIGHT");
+        } else {
+            $(".overlay")
+                .css("background", "#FFF")
+                .css("opacity", opacity);
+
+            console.log("DARK")
+        }
+        console.log(opacity);
     }
 
     var clickedSliderMain = function (event) {
@@ -34,6 +47,7 @@
             )
             $(".slider")
                 .offset(offset)
+        adjustBrightness();
     }
 
     var setSliderArea = function (jQueryElements) {
@@ -48,6 +62,9 @@
         $(".slider-main")
             .append($("<div/>", {
                 class: "slider"
+            }))
+            .append($("<div/>", {
+                class: "color-container"
             }));
     }
 
@@ -80,6 +97,7 @@
             $(this)
                 .offset(offset)
                 .mouseup(endDrag);
+            adjustBrightness();
         }
         event.preventDefault();
     }
