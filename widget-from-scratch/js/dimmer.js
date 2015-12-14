@@ -1,13 +1,24 @@
 (function ($) {
-    $.fn.dimmer = function () {
+    $.fn.dimmer = function (options) {
+
+        // var defaultProperties = {
+
+        // }
+        // $.extend(options, defaultProperties);
         setSliderArea(this);
         this
-            .mousedown(slideDrag)
-            .mouseover(mouseIsOver)
-            // console.log($(".slider").offset().top);
-
-        // offset = clampSlider($(this).offset(), this);
-        // $(this).offset(offset);
+            .find("div.slider")
+            .each(function () {
+                $(this)
+                    // .mousedown(slideDrag)
+                    .mousedown(startDrag)
+                    .mouseover(mouseIsOver)
+                    .mouseup(endDrag)
+            })
+        offset = clampSlider($("div.slider").offset(), this);
+        $(this).offset(offset);
+        console.log("MAIN " + ($(".slider-main").offset().top + $(".slider-main").height()));
+        console.log("SLIDER " + $(".slider").offset().top + $(".slider").height());
     }
 
     var setSliderArea = function (jQueryElements) {
@@ -33,24 +44,33 @@
             })
     }
 
-    var slideDrag = function (event) {
-        $(this)
-            .offset({
-                top: event.clientY
-            })
-            .mousemove(slideMove)
-            .mouseup(slideCleanUp)
-            .css("background", "gray");
-            console.log("FUNCK")
-
+    var startDrag = function (event) {
+        var jThis = $(this),
+            startOffset = jThis.offset();
+        this.deltaY = event.pageY - startOffset.top;
+        $(this).mousemove(trackDrag);
+        console.log(this.deltaY);
     }
 
-    var slideMove = function (event) {
-        $(this)
-            .offset({
-                top: event.clientY
+    var trackDrag = function (event) {
+        $(this).offset({
+            top: event.pageY - this.deltaY
+        })
+        $()
+        console.log("event.pageY " + event.clientY);
+        console.log("offset " + $(this).offset().top)
+    }
+
+    var endDrag = function (event) {
+        var lastY = event.pageY;
+
+            $(this).offset({
+                top: lastY
             })
-        console.log("SlideMove " + $(this).offset().top);
+            .mouseup(slideCleanUp)
+        
+        console.log("lastY " + lastY);
+
     }
 
     var slideCleanUp = function (event) {
@@ -58,13 +78,13 @@
             .offset({
                 top: event.clientY
             })
-            .unbind("mousemove", slideMove)
+            .unbind("mousemove", startDrag)
             .css("background", "white");
     }
 
     var clampSlider = function (offset, element) {
-        var containerTop = $(".slider-container").offset().top;
-        var containerBottom = containerTop + $(".slider-container").height();
+        var containerTop = $(".slider-main").offset().top;
+        var containerBottom = containerTop + $(".slider-main").height();
         var sliderTop = offset.top;
         var sliderBottom = sliderTop+ $(element).height();
         offset.top = sliderTop < containerTop 
