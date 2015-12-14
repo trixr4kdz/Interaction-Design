@@ -1,118 +1,91 @@
 (function ($) {
     $.fn.dimmer = function () {
-        $("body")
-            .append($("<div/>", {
-                id: "slider-container",
-            }))
-            .append($("<div/>", {
-                class: "overlay"
-            }));
-
-        $("#slider-container").append($("<div/>", {
-            class: "slider"
-        }));
-
-
-        trackSlide(".slider");
+        this
+            .mousedown(slideDrag)
+            .mouseover(mouseIsOver)
+            console.log($(".slider").offset().top);
+        // trackSlide(".slider");
     }
 
-    var trackSlide = function (target) {
-        var isSliding = false;
-        $(target)
-            .mouseover(function () {
-                $(this)
-                    .css("background-color", "gray")
-                    .mousedown(function () {
-                        isSliding = false;
-                        // console.log("DOWN");
-                        $(this).css({
-                            background: "yellow"
-                        })
-                    .mousemove(function () {
-                        isSliding = true;
-                    })
-                })
-            })
-            .mouseup(function () {
-                var wasSliding = isSliding;
-                isSliding = false;
-                if (wasSliding) {
-                    $(target).css("background-color", "gray");
-                }
-            })
+    var mouseIsOver = function () {
+        $(this)
+            .css("border-color", "gray")
             .mouseout(function () {
-                // if (!isSliding) {
-                    $(target).css("background-color", "white");
-                // }
+                $(this).css("border-color", "black");
             })
     }
 
-    var startSlide = function (event) {
-        var jThis = $(target),
-            startOffset = jThis.offset();
-
-        target.moving = jThis;
-        target.deltaY = event.pageY - startOffset.top;
-
-        event.stopPropagation();
+    var slideDrag = function (event) {
+        $(this)
+            .offset({
+                top: event.clientY
+            })
+            .mousemove(slideMove)
+            .mouseup(slideCleanUp)
+            .css("background", "gray")
     }
 
-    var startMove = function (event) {
-        $.each(event.changedTouches, function (index, touch) {
-            // Highlight the element.
-            $(touch.target).addClass("box-highlight");
+    var slideMove = function (event) {
+        $(this)
+            .offset({
+                top: event.clientY
+            })
+        console.log("FUNCK")
+    }
 
-            // Take note of the box's current (global) location.
-            var jThis = $(touch.target),
-                startOffset = jThis.offset();
+    var slideCleanUp = function (event) {
+         $(this)
+            .offset({
+                top: event.clientY
+            })
+            .unbind("mousemove", slideMove)
+            .css("background", "white");
+    }
 
-            // Set the drawing area's state to indicate that it is
-            // in the middle of a move.
-            touch.target.movingBox = jThis;
+    var clampSlider = function (offset, element) {
+        var containerTop = $("#slider-container").offset().top;
+        var containerBottom = containerTop + $("#slider-container").height();
+        var sliderTop = offset.top;
+        var sliderBottom = sliderTop+ $(element).height();
+        offset.top = sliderTop < containerTop 
+                        ? containerTop 
+                        : sliderTop;
+        offset.top = sliderBottom > containerBottom
+                        ? containerBottom - sliderBottom
+                        : sliderTop
+        return offset;
+    }
 
-            touch.target.deltaX = touch.pageX - startOffset.left;
-            touch.target.deltaY = touch.pageY - startOffset.top;
-        });
+    // var trackSlide = function (target) {
+    //     var isSliding = false;
+    //     $(target)
+    //         .mouseover(function () {
+    //             $(this)
+    //                 .css("background-color", "gray")
+    //                 .mousedown(function () {
+    //                     isSliding = false;
+    //                     $(this).css({
+    //                         background: "yellow"
+    //                     })
+    //                 .mousemove(function () {
+    //                     isSliding = true;
+    //                 })
+    //             })
+    //         })
+    //         .mouseup(function () {
+    //             var wasSliding = isSliding;
+    //             isSliding = false;
+    //             if (wasSliding) {
+    //                 $(target).css("background-color", "gray");
+    //             }
+    //         })
+    //         .mouseout(function () {
+    //             // if (!isSliding) {
+    //                 $(target).css("background-color", "white");
+    //             // }
+    //         })
+    // }
 
-        // Eat up the event so that the drawing area does not
-        // deal with it.
-        event.stopPropagation();
-    };
-
-    var trackDrag = function (event) {
-        $.each(event.changedTouches, function (index, touch) {
-            // Don't bother if we aren't tracking anything.
-            var element = touch.target;
-            if (element.movingBox) {
-                // Reposition the object.
-                var newLeft = touch.pageX - element.deltaX;
-                var newTop = touch.pageY - element.deltaY;
-                var offset = snapBox ({
-                        left: newLeft, 
-                        top: newTop
-                    }, 
-                    element
-                );
-                element.movingBox.offset(offset);
-            }
-        });
-
-        // Don't do any touch scrolling.
-        event.preventDefault();
-    };
-
-    var endDrag = function (event) {
-        $.each(event.changedTouches, function (index, touch) {
-            var element = touch.target;
-            if (element.movingBox) {
-                element.movingBox = null;
-            }
-        });
-    };
-
-
-
-
-    $("#slider-container").dimmer();
+    $(".slider").dimmer();
 
 }) (jQuery);

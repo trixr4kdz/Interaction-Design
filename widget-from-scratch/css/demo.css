@@ -12,7 +12,7 @@
 }
 
 .slider {
-    width: 100%;
+    width: 80%;
     height: 25px;
     border: 2px solid black;
     border-radius: 25px;
@@ -32,10 +32,6 @@
     top: 0px;
     left: 0px;
     position: fixed;
-}
-
-.mouseOver {
-    background-color: white;
 }
 
 /* Will need to not repeat except for background color
