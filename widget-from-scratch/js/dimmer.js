@@ -1,12 +1,22 @@
 (function ($) {
     $.fn.dimmer = function () {
+        setSliderArea(this);
         this
             .mousedown(slideDrag)
             .mouseover(mouseIsOver)
-            console.log($(".slider").offset().top);
+            // console.log($(".slider").offset().top);
 
-        offset = clampSlider($(this).offset(), this);
-        $(this).offset(offset);
+        // offset = clampSlider($(this).offset(), this);
+        // $(this).offset(offset);
+    }
+
+    var setSliderArea = function (jQueryElements) {
+        jQueryElements
+            .addClass("slider-container")
+            .addClass("overlay")
+            .append($("<div/>", {
+                class: "slider"
+            }));
     }
 
     var mouseIsOver = function () {
@@ -47,8 +57,8 @@
     }
 
     var clampSlider = function (offset, element) {
-        var containerTop = $("#slider-container").offset().top;
-        var containerBottom = containerTop + $("#slider-container").height();
+        var containerTop = $(".slider-container").offset().top;
+        var containerBottom = containerTop + $(".slider-container").height();
         var sliderTop = offset.top;
         var sliderBottom = sliderTop+ $(element).height();
         offset.top = sliderTop < containerTop 
@@ -91,6 +101,5 @@
     //         })
     // }
 
-    $(".slider").dimmer();
-
+    
 }) (jQuery);
