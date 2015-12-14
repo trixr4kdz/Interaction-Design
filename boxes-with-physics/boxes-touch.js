@@ -185,7 +185,6 @@
                 element.acceleration.y = -event.accelerationIncludingGravity.y / 10000;
             })
         });
-        changeBoxDimensionOnOrientationChange();
     };
 
 } (jQuery));
