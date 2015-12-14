@@ -1,3 +1,3 @@
 $(function () {
-    $(".slide").dimmer();
+    $(".slider-container").dimmer();
 });

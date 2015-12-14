@@ -12,8 +12,14 @@
 
     var setSliderArea = function (jQueryElements) {
         jQueryElements
-            .addClass("slider-container")
-            .addClass("overlay")
+            .append($("<div/>", {
+               class: "slider-main",
+            }))
+            .append($("<div/>", {
+               class: "overlay"
+            }));
+
+        $(".slider-main")
             .append($("<div/>", {
                 class: "slider"
             }));
@@ -101,5 +107,5 @@
     //         })
     // }
 
-    
+
 }) (jQuery);

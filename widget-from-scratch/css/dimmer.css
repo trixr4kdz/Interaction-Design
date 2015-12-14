@@ -1,5 +1,6 @@
-.slider-container {
+.slider-main {
     position: fixed;
+    /*position: relative;*/
     background-color: white;
     width: 16px;
     height: 90%;
