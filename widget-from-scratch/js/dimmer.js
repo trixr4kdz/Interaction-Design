@@ -84,7 +84,7 @@
     }
 
     var startDrag = function (event) { 
-        clicking = true;
+        clicking = true; // JD: 2
         var jThis = $(this),
             startOffset = jThis.offset();
         this.deltaY = event.pageY - startOffset.top;
