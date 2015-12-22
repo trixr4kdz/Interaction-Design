@@ -38,7 +38,7 @@
     var updateBoxPositions = function (timestamp) {
         var timePassed = timestamp - lastTimestamp;
         if (timePassed > MS_BETWEEN_FRAMES) {
-            $("div.box").each (function (index, element) {
+            $("div.box").each (function (index, element) { // JD: 3
                 var offset = $(element).offset();
                 offset.left += element.velocity.x * timePassed;
                 offset.top += element.velocity.y * timePassed;
@@ -52,17 +52,17 @@
                     element.velocity.y += element.acceleration.y * timePassed;
                     
                     if (boxBottom > OUTER_BOX_BOTTOM || offset.top < OUTER_BOX_TOP) {
-                        element.velocity.y *= -0.5;
+                        element.velocity.y *= -0.5; // JD: 5
                         
-                        if (Math.abs(element.velocity.y) < 0.1) {
+                        if (Math.abs(element.velocity.y) < 0.1) { // JD: 5
                             element.velocity.y = 0;
                         }
                     }
 
                     if (boxRight > OUTER_BOX_RIGHT || offset.left < OUTER_BOX_LEFT) {
-                        element.velocity.x *= -0.5;
+                        element.velocity.x *= -0.5; // JD: 5
 
-                        if (Math.abs(element.velocity.x) < 0.1) {
+                        if (Math.abs(element.velocity.x) < 0.1) { // JD: 5
                             element.velocity.x = 0;
                         }
                     }
@@ -72,7 +72,7 @@
             });
             lastTimestamp = timestamp;
         }
-        window.requestAnimationFrame (updateBoxPositions);
+        window.requestAnimationFrame (updateBoxPositions); // JD: 3
     }
 
     var snapBox = function (offset, element) {
@@ -130,7 +130,7 @@
                 // Reposition the object.
                 var newLeft = touch.pageX - element.deltaX;
                 var newTop = touch.pageY - element.deltaY;
-                var offset = snapBox ({
+                var offset = snapBox ({ // JD: 3
                         left: newLeft, 
                         top: newTop
                     }, 
@@ -158,7 +158,7 @@
                 // Change state to "not-moving-anything" by clearing out
                 // element.movingBox.
                 
-                if (element.movingBox.lastLastX === undefined){
+                if (element.movingBox.lastLastX === undefined){ // JD: 4
                     element.movingBox.lastLastX = touch.pageX;
                     element.movingBox.lastLastY = touch.pageY;
                 }
@@ -178,10 +178,10 @@
 
     $.fn.boxesTouch = function () {
         setDrawingArea(this);
-        window.requestAnimationFrame (updateBoxPositions);
-        window.addEventListener ("devicemotion", function (event) {
+        window.requestAnimationFrame (updateBoxPositions); // JD: 3
+        window.addEventListener ("devicemotion", function (event) { // JD: 3
             $("div.box").each(function (index, element) {
-                element.acceleration.x = event.accelerationIncludingGravity.x / 10000;
+                element.acceleration.x = event.accelerationIncludingGravity.x / 10000; // JD: 5
                 element.acceleration.y = -event.accelerationIncludingGravity.y / 10000;
             })
         });

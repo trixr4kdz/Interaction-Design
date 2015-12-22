@@ -19,7 +19,7 @@
     box-shadow: 0px 0px 15px green;
 }
 
-#boxA { 
+#boxA { /* JD: 2 */
     width: 60px; 
     height: 60px; 
     left: 50px; 
