@@ -1,2 +1,2 @@
-# CMSI370
-GitHub repo for Dondi's Interaction Design class
+# Interaction Design
+GitHub repo for Dondi's CMSI370: Interaction Design class
